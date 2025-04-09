@@ -4,10 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
@@ -58,11 +55,9 @@ public class Monitor {
                 root.getChildren().remove(camImage);
                 camImage = cameras.get(index).getImage();
                 root.getChildren().add(camImage);
+                camImage.toBack();
 
-                backButton.toFront();
-                schemeImage.toFront();
                 for(int idk = 0; idk < camButtons.size(); idk++){
-                    camButtons.get(idk).toFront();
                     camButtons.get(idk).setOpacity(0);
                 }
                 btn.setOpacity(0.3);
@@ -81,6 +76,7 @@ public class Monitor {
             camButtons.get(idk).toFront();
         }
 
+        camButtons.getFirst().setOpacity(0.3);
     }
 
 

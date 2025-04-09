@@ -16,7 +16,10 @@ public class Game {
     private Scene officeScene;
     private ImageView officePic;
     private Button monitorButton;
+    private Button left, right;
     private Monitor monitor;
+    private OfficeLeft officeLeft;
+    private OfficeRight officeRight;
 
     public Game(Stage stage) {
         WIDTH = 16*90;
@@ -24,7 +27,7 @@ public class Game {
 
         root = new AnchorPane();
 
-        Image officeImg = new Image("file:res/office.png");
+        Image officeImg = new Image("file:res/office/office.png");
         officePic = new ImageView(officeImg);
         root.getChildren().add(officePic);
 
@@ -45,6 +48,48 @@ public class Game {
             stage.setScene(monitor.getScene());
         });
 
+        Button backLeft = new Button();
+        backLeft.setPrefWidth(720);
+        backLeft.setPrefHeight(100);
+        backLeft.setOpacity(0);
+        backLeft.setOnMouseEntered(e -> {
+            stage.setScene(officeScene);
+        });
+
+        officeLeft = new OfficeLeft(WIDTH, HEIGHT, backLeft);
+
+        Button backRight = new Button();
+        backRight.setPrefWidth(720);
+        backRight.setPrefHeight(100);
+        backRight.setOpacity(0);
+        backRight.setOnMouseEntered(e -> {
+            stage.setScene(officeScene);
+        });
+
+        officeRight = new OfficeRight(WIDTH, HEIGHT, backRight);
+
+        left = new Button();
+        left.setPrefWidth(100);
+        left.setPrefHeight(410);
+        left.setOpacity(0);
+        AnchorPane.setLeftAnchor(left, 0.0);
+        AnchorPane.setBottomAnchor(left, 200.0);
+
+        left.setOnMouseEntered(e -> {
+            stage.setScene(officeLeft.getScene());
+        });
+
+        right = new Button();
+        right.setPrefWidth(100);
+        right.setPrefHeight(410);
+        right.setOpacity(0);
+        AnchorPane.setRightAnchor(right, 0.0);
+        AnchorPane.setBottomAnchor(right, 200.0);
+
+        right.setOnMouseEntered(e -> {
+            stage.setScene(officeRight.getScene());
+        });
+
         Button backButton = new Button("Back");
         backButton.setOnMouseEntered(e -> {
             stage.setScene(officeScene);
@@ -52,6 +97,8 @@ public class Game {
         monitor = new Monitor(WIDTH, HEIGHT, backButton);
 
         root.getChildren().add(monitorButton);
+        root.getChildren().add(left);
+        root.getChildren().add(right);
 
         stage.sizeToScene();
         stage.setResizable(false);
