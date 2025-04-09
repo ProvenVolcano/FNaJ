@@ -19,12 +19,12 @@ public class Game {
     private Monitor monitor;
 
     public Game(Stage stage) {
-        WIDTH = 1200;
-        HEIGHT = 800;
+        WIDTH = 16*90;
+        HEIGHT = 9*90;
 
         root = new AnchorPane();
 
-        Image officeImg = new Image("file:office.png");
+        Image officeImg = new Image("file:res/office.png");
         officePic = new ImageView(officeImg);
         root.getChildren().add(officePic);
 
