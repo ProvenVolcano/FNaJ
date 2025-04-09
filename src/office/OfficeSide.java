@@ -1,4 +1,4 @@
-package main;
+package office;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -6,14 +6,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class OfficeLeft {
+public class OfficeSide {
 
     private Scene scene;
     private AnchorPane root;
     private ImageView image;
 
-    public OfficeLeft(int width, int height, Button backButton) {
-        image = new ImageView(new Image("file:res/office/officeLeft.png"));
+    public OfficeSide(int width, int height, Button backButton, String file) {
+        image = new ImageView(new Image("file:res/office/" + file));
         root = new AnchorPane();
 
         AnchorPane.setLeftAnchor(backButton, 360.0);

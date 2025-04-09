@@ -1,7 +1,9 @@
-package main;
+package cameras;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.ArrayList;
 
 public class Camera {
 
@@ -9,6 +11,7 @@ public class Camera {
     private ImageView image;
     private int x;
     private int y;
+    private ArrayList<Integer> neighbouringIDs;
 
     public Camera(int id, String file, int width, int height, int x, int y) {
         ID = id;

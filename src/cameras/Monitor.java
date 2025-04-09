@@ -1,4 +1,4 @@
-package main;
+package cameras;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -34,6 +34,8 @@ public class Monitor {
         cameras = new ArrayList<>();
 
         camButtons = new ArrayList<>();
+
+        //creating cameras
         for (int i = 0; i < 8; i++) {
 
             Camera camera = Camera.createCamera(i, width, height);
