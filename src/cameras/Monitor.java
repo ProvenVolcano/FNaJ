@@ -1,5 +1,7 @@
 package cameras;
 
+import animatronics.Animatronic;
+import animatronics.Nanobot;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -31,24 +33,21 @@ public class Monitor {
         schemeImage.setX(940);
         schemeImage.setY(400);
 
-        cameras = new ArrayList<>();
+        cameras = Camera.createCameras("res/cameras.txt");
 
         camButtons = new ArrayList<>();
 
         //creating cameras
-        for (int i = 0; i < 8; i++) {
-
-            Camera camera = Camera.createCamera(i, width, height);
+        for (int i = 0; i < cameras.size(); i++) {
 
             Button btn = new Button();
-            btn.setLayoutX(camera.getX());
-            btn.setLayoutY(camera.getY());
+            btn.setLayoutX(cameras.get(i).getX());
+            btn.setLayoutY(cameras.get(i).getY());
             btn.setPrefWidth(46);
             btn.setPrefHeight(32);
             btn.setOpacity(0);
             btn.setStyle("-fx-background-color: #00ff09;");
 
-            cameras.add(camera);
             camButtons.add(btn);
 
             final int index = i;
@@ -74,13 +73,16 @@ public class Monitor {
         root.getChildren().add(backButton);
         root.getChildren().add(schemeImage);
 
-        for(int idk = 0; idk < camButtons.size(); idk++){
-            camButtons.get(idk).toFront();
+        for (Button camButton : camButtons) {
+            camButton.toFront();
         }
 
         camButtons.getFirst().setOpacity(0.3);
     }
 
+    public ArrayList<Camera> getCameras() {
+        return cameras;
+    }
 
     public Scene getScene() {
         return scene;

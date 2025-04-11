@@ -3,4 +3,5 @@ module main {
     exports main;
     exports office;
     exports cameras;
+    exports animatronics;
 }

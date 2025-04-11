@@ -1,9 +1,14 @@
 package cameras;
 
+import animatronics.Animatronic;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Camera {
 
@@ -11,15 +16,23 @@ public class Camera {
     private ImageView image;
     private int x;
     private int y;
+    private int distance;
     private ArrayList<Integer> neighbouringIDs;
+    private HashMap<Integer, Animatronic> animatronics;
 
-    public Camera(int id, String file, int width, int height, int x, int y) {
-        ID = id;
-        this.x = x;
-        this.y = y;
-        image = new ImageView(new Image("file:" + file));
-        image.setFitWidth(width);
-        image.setFitHeight(height);
+    public Camera(String[] tokens) {
+        ID = Integer.parseInt(tokens[0]);
+        neighbouringIDs = new ArrayList<>();
+
+        String[] neighboursTemp = tokens[1].split("\\.");
+        for (String s : neighboursTemp) {
+            neighbouringIDs.add(Integer.parseInt(s));
+        }
+
+        image = new ImageView(new Image("file:res/cameras/cam" + ID + ".png"));
+        distance = Integer.parseInt(tokens[2]);
+        x = Integer.parseInt(tokens[3]);
+        y = Integer.parseInt(tokens[4]);
     }
 
     public int getID() {
@@ -38,17 +51,32 @@ public class Camera {
         return y;
     }
 
-    public static Camera createCamera(int index, int width, int height) {
-        return switch (index) {
-            case 0 -> new Camera(1, "res/cameras/cam1.png", width, height, 1334, 572);
-            case 1 -> new Camera(2, "res/cameras/cam2.png", width, height, 1356, 512);
-            case 2 -> new Camera(3, "res/cameras/cam3.png", width, height, 1356, 415);
-            case 3 -> new Camera(4, "res/cameras/cam4.png", width, height, 1227, 472);
-            case 4 -> new Camera(5, "res/cameras/cam5.png", width, height, 1198, 670);
-            case 5 -> new Camera(6, "res/cameras/cam6.png", width, height, 1068, 473);
-            case 6 -> new Camera(7, "res/cameras/cam7.png", width, height, 1066, 670);
-            case 7 -> new Camera(8, "res/cameras/cam8.png", width, height, 951, 690);
-            default -> null;
-        };
+    public HashMap<Integer, Animatronic> getAnimatronics() {
+        return animatronics;
+    }
+
+    public ArrayList<Integer> getNeighbouringIDs() {
+        return neighbouringIDs;
+    }
+
+    public static ArrayList<Camera> createCameras(String file) {
+        ArrayList<Camera> cameras = new ArrayList<>();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+
+                try {
+                    cameras.add(new Camera(line.split(",")));
+                } catch (Exception e) {
+                    System.out.println("A camera failed to be created");
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return cameras;
     }
 }
