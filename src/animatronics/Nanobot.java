@@ -10,6 +10,18 @@ public class Nanobot extends Animatronic {
 
     @Override
     public void run() {
+        while(true) {
 
+            try {
+                Thread.sleep(rd.nextInt(3000) + 500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (rd.nextBoolean()) {
+                monitor.moveCloser(this);
+                System.out.println("Nanobot moved to: " + currentPosition);
+            } else System.out.println("slept");
+        }
     }
 }

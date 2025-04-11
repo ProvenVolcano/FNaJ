@@ -2,6 +2,8 @@ package animatronics;
 
 import cameras.Monitor;
 
+import java.util.Random;
+
 public abstract class Animatronic implements Runnable {
 
     protected final int ID;
@@ -10,6 +12,7 @@ public abstract class Animatronic implements Runnable {
     protected int difficulty;
     protected Thread moveThread;
     protected Monitor monitor;
+    protected Random rd;
 
     public Animatronic(int ID, int startPosition, int difficulty, Monitor monitor) {
         this.ID = ID;
@@ -18,10 +21,19 @@ public abstract class Animatronic implements Runnable {
         this.difficulty = difficulty;
         this.monitor = monitor;
         moveThread = new Thread(this);
+        rd = new Random();
     }
 
     public int getID() {
         return ID;
+    }
+
+    public int getStartPosition() {
+        return startPosition;
+    }
+
+    public void setCurrentPosition(int currentPosition) {
+        this.currentPosition = currentPosition;
     }
 
     public int getCurrentPosition() {
@@ -29,6 +41,7 @@ public abstract class Animatronic implements Runnable {
     }
 
     public void activate() {
+        System.out.println("Activated in " + currentPosition);
         moveThread.start();
     }
 }

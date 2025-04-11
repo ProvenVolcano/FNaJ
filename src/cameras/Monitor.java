@@ -9,6 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class Monitor {
 
@@ -18,11 +20,14 @@ public class Monitor {
     private ImageView schemeImage;
 
     private ArrayList<Button> camButtons;
-    private ArrayList<Camera> cameras;
+    private HashMap<Integer, Camera> cameras;
+
+    private Random rd;
 
     public Monitor(int width, int height, Button backButton) {
         root = new Pane();
         scene = new Scene(root, width, height);
+        rd = new Random();
 
         backButton.setPrefWidth(150);
         backButton.setPrefHeight(50);
@@ -38,11 +43,11 @@ public class Monitor {
         camButtons = new ArrayList<>();
 
         //creating cameras
-        for (int i = 0; i < cameras.size(); i++) {
+        for (Camera camera : cameras.values()) {
 
             Button btn = new Button();
-            btn.setLayoutX(cameras.get(i).getX());
-            btn.setLayoutY(cameras.get(i).getY());
+            btn.setLayoutX(camera.getX());
+            btn.setLayoutY(camera.getY());
             btn.setPrefWidth(46);
             btn.setPrefHeight(32);
             btn.setOpacity(0);
@@ -50,16 +55,15 @@ public class Monitor {
 
             camButtons.add(btn);
 
-            final int index = i;
             btn.setOnAction(e -> {
 
                 root.getChildren().remove(camImage);
-                camImage = cameras.get(index).getImage();
+                camImage = camera.getImage();
                 root.getChildren().add(camImage);
                 camImage.toBack();
 
-                for(int idk = 0; idk < camButtons.size(); idk++){
-                    camButtons.get(idk).setOpacity(0);
+                for (Button camButton : camButtons) {
+                    camButton.setOpacity(0);
                 }
                 btn.setOpacity(0.3);
             });
@@ -67,7 +71,7 @@ public class Monitor {
             root.getChildren().add(btn);
         }
 
-        camImage = cameras.getFirst().getImage();
+        camImage = cameras.get(1).getImage();
 
         root.getChildren().add(camImage);
         root.getChildren().add(backButton);
@@ -78,10 +82,39 @@ public class Monitor {
         }
 
         camButtons.getFirst().setOpacity(0.3);
+
+        // player office
+        cameras.put(0, new Camera(new String[]{"0","0","0","0","0"}));
+
+        cameras.get(1).getAnimatronics().put(1, new Nanobot(this, 5));
+        cameras.get(1).getAnimatronics().get(1).activate();
     }
 
-    public ArrayList<Camera> getCameras() {
-        return cameras;
+    public void moveCloser(Animatronic animatronic) {
+        ArrayList<Integer> closerIDs = closerCameras(animatronic.getCurrentPosition());
+        int newPosition = closerIDs.get(rd.nextInt(closerIDs.size()));
+
+        if(newPosition == 0) {
+            System.out.println("JUMPSCARE");
+            cameras.get(animatronic.getCurrentPosition()).getAnimatronics().remove(animatronic.getID());
+            cameras.get(animatronic.getStartPosition()).getAnimatronics().put(animatronic.getID(), animatronic);
+            animatronic.setCurrentPosition(animatronic.getStartPosition());
+            return;
+        }
+
+        cameras.get(newPosition).getAnimatronics().put(animatronic.getID(), animatronic);
+        cameras.get(animatronic.getCurrentPosition()).getAnimatronics().remove(animatronic.getID());
+        animatronic.setCurrentPosition(newPosition);
+    }
+
+    public ArrayList<Integer> closerCameras(int currentID) {
+        ArrayList<Integer> camIDs = new ArrayList<>();
+        for(int id : cameras.get(currentID).getNeighbouringIDs()) {
+            if(cameras.get(id).getDistance() <= cameras.get(currentID).getDistance()) {
+                camIDs.add(cameras.get(id).getID());
+            }
+        }
+        return camIDs;
     }
 
     public Scene getScene() {

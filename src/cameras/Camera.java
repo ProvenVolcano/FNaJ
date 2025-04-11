@@ -33,6 +33,8 @@ public class Camera {
         distance = Integer.parseInt(tokens[2]);
         x = Integer.parseInt(tokens[3]);
         y = Integer.parseInt(tokens[4]);
+
+        animatronics = new HashMap<>();
     }
 
     public int getID() {
@@ -59,8 +61,12 @@ public class Camera {
         return neighbouringIDs;
     }
 
-    public static ArrayList<Camera> createCameras(String file) {
-        ArrayList<Camera> cameras = new ArrayList<>();
+    public int getDistance() {
+        return distance;
+    }
+
+    public static HashMap<Integer, Camera> createCameras(String file) {
+        HashMap<Integer, Camera> cameras = new HashMap<>();
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -68,7 +74,8 @@ public class Camera {
             while ((line = br.readLine()) != null) {
 
                 try {
-                    cameras.add(new Camera(line.split(",")));
+                    Camera camera = new Camera(line.split(","));
+                    cameras.put(camera.getID(), camera);
                 } catch (Exception e) {
                     System.out.println("A camera failed to be created");
                 }
