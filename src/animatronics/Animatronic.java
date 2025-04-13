@@ -24,6 +24,10 @@ public abstract class Animatronic implements Runnable {
         rd = new Random();
     }
 
+    public Thread getMoveThread() {
+        return moveThread;
+    }
+
     public int getID() {
         return ID;
     }

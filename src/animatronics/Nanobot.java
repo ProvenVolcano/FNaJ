@@ -15,7 +15,7 @@ public class Nanobot extends Animatronic {
             try {
                 Thread.sleep(rd.nextInt(3000) + 500);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                return;
             }
 
             if (rd.nextBoolean()) {

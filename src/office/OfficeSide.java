@@ -1,6 +1,7 @@
 package office;
 
 import animatronics.Animatronic;
+import info.InfoPane;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -13,8 +14,9 @@ public class OfficeSide {
     private AnchorPane root;
     private ImageView image;
     private Animatronic animatronic;
+    private InfoPane info;
 
-    public OfficeSide(int width, int height, Button backButton, String file) {
+    public OfficeSide(int width, int height, Button backButton, String file, InfoPane info) {
         image = new ImageView(new Image("file:res/office/" + file));
         root = new AnchorPane();
 
@@ -22,6 +24,11 @@ public class OfficeSide {
         AnchorPane.setBottomAnchor(backButton, 0.0);
 
         root.getChildren().add(image);
+
+        this.info = info;
+        this.info.getRoot().setPrefSize(width, height);
+        root.getChildren().add(this.info.getRoot());
+
         root.getChildren().add(backButton);
 
         scene = new Scene(root, width, height);

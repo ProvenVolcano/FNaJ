@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import info.InfoPane;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,13 +19,14 @@ public class Monitor {
     private Pane root;
     private ImageView camImage;
     private ImageView schemeImage;
+    private InfoPane info;
 
     private ArrayList<Button> camButtons;
     private HashMap<Integer, Camera> cameras;
 
     private Random rd;
 
-    public Monitor(int width, int height, Button backButton) {
+    public Monitor(int width, int height, Button backButton, InfoPane info) {
         root = new Pane();
         scene = new Scene(root, width, height);
         rd = new Random();
@@ -41,6 +43,13 @@ public class Monitor {
         cameras = Camera.createCameras("res/cameras.txt");
 
         camButtons = new ArrayList<>();
+
+        camImage = cameras.get(1).getImage();
+        root.getChildren().add(camImage);
+
+        this.info = info;
+        this.info.getRoot().setPrefSize(width, height);
+        root.getChildren().add(this.info.getRoot());
 
         //creating cameras
         for (Camera camera : cameras.values()) {
@@ -71,9 +80,6 @@ public class Monitor {
             root.getChildren().add(btn);
         }
 
-        camImage = cameras.get(1).getImage();
-
-        root.getChildren().add(camImage);
         root.getChildren().add(backButton);
         root.getChildren().add(schemeImage);
 
@@ -115,6 +121,14 @@ public class Monitor {
             }
         }
         return camIDs;
+    }
+
+    public void closeThreads() {
+        for(Camera camera : cameras.values()) {
+            for(Animatronic animatronic : camera.getAnimatronics().values()) {
+                animatronic.getMoveThread().interrupt();
+            }
+        }
     }
 
     public Scene getScene() {

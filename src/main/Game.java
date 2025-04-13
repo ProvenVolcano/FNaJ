@@ -1,5 +1,7 @@
 package main;
 
+import cameras.Monitor;
+import info.*;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import office.*;
@@ -17,11 +19,27 @@ public class Game {
         WIDTH = 16*90;
         HEIGHT = 9*90;
 
-        officeLeft = new OfficeSide(WIDTH, HEIGHT, backButton(stage), "officeLeft.png");
-        officeRight = new OfficeSide(WIDTH, HEIGHT, backButton(stage), "officeRight.png");
+        InfoProperties info = new InfoProperties(1);
 
-        office = new Office(stage, WIDTH, HEIGHT, officeLeft, officeRight);
+        officeLeft = new OfficeSide(WIDTH, HEIGHT, backButton(stage), "officeLeft.png", new InfoPane(info));
+        officeRight = new OfficeSide(WIDTH, HEIGHT, backButton(stage), "officeRight.png", new InfoPane(info));
 
+        Button backButton = new Button("Back");
+        backButton.setOnMouseEntered(e -> {
+            info.decreaseUsage();
+            stage.setScene(office.getOfficeScene());
+        });
+
+        Monitor monitor = new Monitor(WIDTH, HEIGHT, backButton, new InfoPane(info));
+
+        office = new Office(stage, WIDTH, HEIGHT, officeLeft, officeRight, monitor, new InfoPane(info), info);
+
+        info.startNight();
+
+        stage.setOnCloseRequest(e -> {
+            monitor.closeThreads();
+            info.closeThreads();
+        });
         stage.setScene(office.getOfficeScene());
         stage.sizeToScene();
         stage.setResizable(false);

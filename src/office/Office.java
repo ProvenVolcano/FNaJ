@@ -1,5 +1,6 @@
 package office;
 
+import info.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -16,8 +17,9 @@ public class Office {
     private Button monitorButton;
     private Button left, right;
     private Monitor monitor;
+    private InfoPane info;
 
-    public Office(Stage stage, int width, int height, OfficeSide officeLeft, OfficeSide officeRight) {
+    public Office(Stage stage, int width, int height, OfficeSide officeLeft, OfficeSide officeRight, Monitor monitor, InfoPane info, InfoProperties ip) {
 
         root = new AnchorPane();
 
@@ -38,6 +40,7 @@ public class Office {
         AnchorPane.setBottomAnchor(monitorButton, 150.0);
 
         monitorButton.setOnAction(e -> {
+            ip.increaseUsage();
             stage.setScene(monitor.getScene());
         });
 
@@ -63,12 +66,9 @@ public class Office {
             stage.setScene(officeRight.getScene());
         });
 
-        Button backButton = new Button("Back");
-        backButton.setOnMouseEntered(e -> {
-            stage.setScene(officeScene);
-        });
-
-        monitor = new Monitor(width, height, backButton);
+        this.info = info;
+        this.info.getRoot().setPrefSize(width, height);
+        root.getChildren().add(this.info.getRoot());
 
         root.getChildren().add(monitorButton);
         root.getChildren().add(left);
