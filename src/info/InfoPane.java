@@ -9,7 +9,7 @@ public class InfoPane {
     private AnchorPane root;
     private Text powerText, usageText, nightText, hourText;
 
-    public InfoPane(InfoProperties ip) {
+    public InfoPane(InfoProperties ip, int width, int height) {
 
         powerText = new Text("Power: 100%");
         powerText.setFill(Color.RED);
@@ -35,6 +35,8 @@ public class InfoPane {
         hourText.textProperty().bind(ip.getHourProperty());
 
         root = new AnchorPane(powerText, usageText, nightText, hourText);
+        root.setPrefWidth(width);
+        root.setPrefHeight(height);
     }
 
     public AnchorPane getRoot() {

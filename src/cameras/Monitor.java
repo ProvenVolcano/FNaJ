@@ -48,7 +48,6 @@ public class Monitor {
         root.getChildren().add(camImage);
 
         this.info = info;
-        this.info.getRoot().setPrefSize(width, height);
         root.getChildren().add(this.info.getRoot());
 
         //creating cameras

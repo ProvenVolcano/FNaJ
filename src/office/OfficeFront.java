@@ -1,36 +1,19 @@
 package office;
 
 import info.*;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import cameras.Monitor;
 
-public class Office {
+public class OfficeFront extends OfficeTemplate {
 
-    private AnchorPane root;
-    private Scene officeScene;
-    private ImageView officePic;
     private Button monitorButton;
     private Button left, right;
     private Monitor monitor;
-    private InfoPane info;
 
-    public Office(Stage stage, int width, int height, OfficeSide officeLeft, OfficeSide officeRight, Monitor monitor, InfoPane info, InfoProperties ip) {
-
-        root = new AnchorPane();
-
-        Image officeImg = new Image("file:res/office/office.png");
-        officePic = new ImageView(officeImg);
-        root.getChildren().add(officePic);
-
-        officePic.fitWidthProperty().bind(root.widthProperty().multiply(1));
-        officePic.fitHeightProperty().bind(root.heightProperty().multiply(1));
-
-        officeScene = new Scene(root, width, height);
+    public OfficeFront(Stage stage, int width, int height, OfficeLeft officeLeft, OfficeRight officeRight, Monitor monitor, InfoPane info, InfoProperties ip) {
+        super(info, "res/office/office.png", width, height);
 
         monitorButton = new Button("Monitor");
         monitorButton.setPrefWidth(450);
@@ -40,8 +23,10 @@ public class Office {
         AnchorPane.setBottomAnchor(monitorButton, 150.0);
 
         monitorButton.setOnAction(e -> {
-            ip.increaseUsage();
-            stage.setScene(monitor.getScene());
+            if(ip.getPower() > 0) {
+                ip.increaseUsage();
+                stage.setScene(monitor.getScene());
+            }
         });
 
         left = new Button();
@@ -66,16 +51,28 @@ public class Office {
             stage.setScene(officeRight.getScene());
         });
 
-        this.info = info;
-        this.info.getRoot().setPrefSize(width, height);
-        root.getChildren().add(this.info.getRoot());
+        doorButton.setPrefWidth(250);
+        doorButton.setPrefHeight(210);
+        doorButton.setLayoutX(470);
+        doorButton.setLayoutY(70);
+
+        doorButton.setOnAction(e -> {
+            if(ip.getPower() > 0) {
+                if (!doorClosed) {
+                    ip.increaseUsage();
+                } else ip.decreaseUsage();
+
+                doorClosed = !doorClosed;
+            }
+        });
 
         root.getChildren().add(monitorButton);
         root.getChildren().add(left);
         root.getChildren().add(right);
     }
 
-    public Scene getOfficeScene() {
-        return officeScene;
+    @Override
+    public void powerOut() {
+        doorClosed = false;
     }
 }

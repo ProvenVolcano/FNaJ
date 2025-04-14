@@ -28,7 +28,7 @@ public class InfoProperties {
 
             while (power > 0) {
                 try {
-                    Thread.sleep(5000 - (usage * 1000L) );
+                    Thread.sleep(3010 - (usage * 1000L) );
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -77,6 +77,11 @@ public class InfoProperties {
 
     public int getPower() {
         return power;
+    }
+
+    public void setUsage(int usage) {
+        this.usage = usage;
+        usageProperty.set("Usage: " + this.usage);
     }
 
     public int getUsage() {
