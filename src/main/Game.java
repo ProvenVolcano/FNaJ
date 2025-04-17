@@ -80,7 +80,7 @@ public class Game implements Runnable {
                 return;
             }
 
-            if(info.getPower() == 0) {
+            if(info.getPower() <= 0) {
                 info.setUsage(0);
                 officeFront.powerOut();
                 officeLeft.powerOut();

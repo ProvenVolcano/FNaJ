@@ -29,7 +29,7 @@ public class Camera {
             neighbouringIDs.add(Integer.parseInt(s));
         }
 
-        image = new ImageView(new Image("file:res/cameras/cam" + ID + ".png"));
+        image = new ImageView(new Image("file:res/cameras/cam" + ID + "/default.png"));
         distance = Integer.parseInt(tokens[2]);
         x = Integer.parseInt(tokens[3]);
         y = Integer.parseInt(tokens[4]);

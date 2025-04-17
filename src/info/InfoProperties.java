@@ -5,7 +5,7 @@ import javafx.beans.property.StringProperty;
 
 public class InfoProperties {
 
-    private int power;
+    private double power;
     private int usage;
     private int night;
     private int hour;
@@ -16,24 +16,24 @@ public class InfoProperties {
     public InfoProperties(int night) {
 
         this.night = night;
-        usage = 0;
+        usage = 1;
         power = 100;
         hour = 0;
 
         powerProperty = new SimpleStringProperty("Power: 100%");
-        usageProperty = new SimpleStringProperty("Usage: 0");
+        usageProperty = new SimpleStringProperty("Usage: 1");
         hourProperty = new SimpleStringProperty("12 AM");
 
         powerThread = new Thread(() -> {
 
             while (power > 0) {
                 try {
-                    Thread.sleep(3010 - (usage * 1000L) );
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     return;
                 }
-                power -= 1;
-                powerProperty.set("Power: " + power + "%");
+                power -= 0.1*usage;
+                powerProperty.set("Power: " + Math.round(power) + "%");
             }
 
         });
@@ -75,7 +75,7 @@ public class InfoProperties {
         hourThread.interrupt();
     }
 
-    public int getPower() {
+    public double getPower() {
         return power;
     }
 

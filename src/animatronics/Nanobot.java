@@ -13,12 +13,12 @@ public class Nanobot extends Animatronic {
         while(true) {
 
             try {
-                Thread.sleep(rd.nextInt(3000) + 500);
+                Thread.sleep(rd.nextInt(10)*100 + 3000);
             } catch (InterruptedException e) {
                 return;
             }
 
-            if (rd.nextBoolean()) {
+            if (rd.nextInt(20) < difficulty) {
                 monitor.moveCloser(this);
                 System.out.println("Nanobot moved to: " + currentPosition);
             } else System.out.println("slept");
