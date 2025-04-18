@@ -1,5 +1,6 @@
 package office;
 
+import cameras.Camera;
 import info.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -12,8 +13,8 @@ public class OfficeFront extends OfficeTemplate {
     private Button left, right;
     private Monitor monitor;
 
-    public OfficeFront(Stage stage, int width, int height, OfficeLeft officeLeft, OfficeRight officeRight, Monitor monitor, InfoPane info, InfoProperties ip) {
-        super(info, "res/office/office.png", width, height);
+    public OfficeFront(Stage stage, int width, int height, OfficeLeft officeLeft, OfficeRight officeRight, Monitor monitor, InfoPane info, InfoProperties ip, Camera cam) {
+        super(info, "res/office/office.png", width, height, cam);
 
         monitorButton = new Button("Monitor");
         monitorButton.setPrefWidth(450);
@@ -58,11 +59,11 @@ public class OfficeFront extends OfficeTemplate {
 
         doorButton.setOnAction(e -> {
             if(ip.getPower() > 0) {
-                if (!doorClosed) {
+                if (!neighbourCam.isClosed()) {
                     ip.increaseUsage();
                 } else ip.decreaseUsage();
 
-                doorClosed = !doorClosed;
+                neighbourCam.setClosed(!neighbourCam.isClosed());
             }
         });
 
@@ -73,6 +74,6 @@ public class OfficeFront extends OfficeTemplate {
 
     @Override
     public void powerOut() {
-        doorClosed = false;
+        neighbourCam.setClosed(false);
     }
 }

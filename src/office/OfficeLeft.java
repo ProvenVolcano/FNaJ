@@ -1,5 +1,6 @@
 package office;
 
+import cameras.Camera;
 import info.InfoPane;
 import info.InfoProperties;
 import javafx.scene.control.Button;
@@ -9,8 +10,8 @@ public class OfficeLeft extends OfficeTemplate {
 
     private Button backButton;
 
-    public OfficeLeft(int width, int height, Button backButton, InfoPane info, InfoProperties ip) {
-        super(info, "res/office/officeLeft.png", width, height);
+    public OfficeLeft(int width, int height, Button backButton, InfoPane info, InfoProperties ip, Camera cam) {
+        super(info, "res/office/officeLeft.png", width, height, cam);
 
         AnchorPane.setLeftAnchor(backButton, 360.0);
         AnchorPane.setBottomAnchor(backButton, 0.0);
@@ -23,17 +24,17 @@ public class OfficeLeft extends OfficeTemplate {
 
         doorButton.setOnAction(e -> {
             if(ip.getPower() > 0) {
-                if (!doorClosed) {
+                if (!neighbourCam.isClosed()) {
                     ip.increaseUsage();
                 } else ip.decreaseUsage();
 
-                doorClosed = !doorClosed;
+                neighbourCam.setClosed(!neighbourCam.isClosed());
             }
         });
     }
 
     @Override
     public void powerOut() {
-        doorClosed = false;
+        neighbourCam.setClosed(false);
     }
 }

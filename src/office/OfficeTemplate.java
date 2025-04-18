@@ -1,6 +1,7 @@
 package office;
 
 import animatronics.Animatronic;
+import cameras.Camera;
 import info.InfoPane;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,13 +17,13 @@ public abstract class OfficeTemplate {
     protected InfoPane info;
     protected Animatronic animatronic;
     protected Button doorButton;
-    protected boolean doorClosed;
+    protected Camera neighbourCam;
 
-    public OfficeTemplate(InfoPane info, String imagePath, int width, int height) {
+    public OfficeTemplate(InfoPane info, String imagePath, int width, int height, Camera neighbourCam) {
         root = new AnchorPane();
-        doorClosed = false;
 
         this.info = info;
+        this.neighbourCam = neighbourCam;
 
         officeImage = new ImageView(new Image("file:" + imagePath));
         root.getChildren().add(officeImage);
@@ -47,13 +48,5 @@ public abstract class OfficeTemplate {
 
     public void setAnimatronic(Animatronic animatronic) {
         this.animatronic = animatronic;
-    }
-
-    public void setDoorClosed(boolean doorClosed) {
-        this.doorClosed = doorClosed;
-    }
-
-    public boolean isDoorClosed() {
-        return doorClosed;
     }
 }

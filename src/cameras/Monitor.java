@@ -106,7 +106,9 @@ public class Monitor {
         int newPosition = closerIDs.get(rd.nextInt(closerIDs.size()));
 
         if (newPosition == 0) {
-            System.out.println("JUMPSCARE by " + animatronic.getName());
+            if(!cameras.get(animatronic.getCurrentPosition()).isClosed()){
+                System.out.println("JUMPSCARE by " + animatronic.getName());
+            } else System.out.println("Door blocked");
             return;
         }
 

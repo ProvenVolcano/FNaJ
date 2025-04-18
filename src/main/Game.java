@@ -30,9 +30,6 @@ public class Game implements Runnable {
 
         info = new InfoProperties(1);
 
-        officeLeft = new OfficeLeft(WIDTH, HEIGHT, backButton(stage), new InfoPane(info, WIDTH, HEIGHT), info);
-        officeRight = new OfficeRight(WIDTH, HEIGHT, backButton(stage), new InfoPane(info, WIDTH, HEIGHT));
-
         Button backButton = new Button("Back");
         backButton.setOnMouseEntered(e -> {
             info.decreaseUsage();
@@ -41,7 +38,9 @@ public class Game implements Runnable {
 
         monitor = new Monitor(WIDTH, HEIGHT, backButton, new InfoPane(info, WIDTH, HEIGHT));
 
-        officeFront = new OfficeFront(stage, WIDTH, HEIGHT, officeLeft, officeRight, monitor, new InfoPane(info, WIDTH, HEIGHT), info);
+        officeLeft = new OfficeLeft(WIDTH, HEIGHT, backButton(stage), new InfoPane(info, WIDTH, HEIGHT), info, monitor.getCameras().get(9));
+        officeRight = new OfficeRight(WIDTH, HEIGHT, backButton(stage), new InfoPane(info, WIDTH, HEIGHT), monitor.getCameras().get(11));
+        officeFront = new OfficeFront(stage, WIDTH, HEIGHT, officeLeft, officeRight, monitor, new InfoPane(info, WIDTH, HEIGHT), info, monitor.getCameras().get(10));
 
         info.startNight();
 

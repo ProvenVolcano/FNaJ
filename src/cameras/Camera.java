@@ -21,11 +21,13 @@ public class Camera {
     private HashMap<Integer, Animatronic> animatronics;
     private int capacity;
     private boolean office;
+    private boolean closed;
 
     public Camera(String[] tokens) {
         ID = Integer.parseInt(tokens[0]);
         neighbouringIDs = new ArrayList<>();
         office = false;
+        closed = false;
 
         String[] neighboursTemp = tokens[1].split("\\.");
         for (String s : neighboursTemp) {
@@ -43,6 +45,14 @@ public class Camera {
         distance = Integer.parseInt(tokens[2]);
         capacity = Integer.parseInt(tokens[5]);
         animatronics = new HashMap<>();
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 
     public int getID() {
