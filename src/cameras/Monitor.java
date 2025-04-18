@@ -1,7 +1,6 @@
 package cameras;
 
-import animatronics.Animatronic;
-import animatronics.Nanobot;
+import animatronics.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -52,31 +51,33 @@ public class Monitor {
 
         //creating cameras
         for (Camera camera : cameras.values()) {
+            if (!camera.isOffice()) {
 
-            Button btn = new Button();
-            btn.setLayoutX(camera.getX());
-            btn.setLayoutY(camera.getY());
-            btn.setPrefWidth(46);
-            btn.setPrefHeight(32);
-            btn.setOpacity(0);
-            btn.setStyle("-fx-background-color: #00ff09;");
+                Button btn = new Button();
+                btn.setLayoutX(camera.getX());
+                btn.setLayoutY(camera.getY());
+                btn.setPrefWidth(46);
+                btn.setPrefHeight(32);
+                btn.setOpacity(0);
+                btn.setStyle("-fx-background-color: #00ff09;");
 
-            camButtons.add(btn);
+                camButtons.add(btn);
 
-            btn.setOnAction(e -> {
+                btn.setOnAction(e -> {
 
-                root.getChildren().remove(camImage);
-                camImage = camera.getImage();
-                root.getChildren().add(camImage);
-                camImage.toBack();
+                    root.getChildren().remove(camImage);
+                    camImage = camera.getImage();
+                    root.getChildren().add(camImage);
+                    camImage.toBack();
 
-                for (Button camButton : camButtons) {
-                    camButton.setOpacity(0);
-                }
-                btn.setOpacity(0.3);
-            });
+                    for (Button camButton : camButtons) {
+                        camButton.setOpacity(0);
+                    }
+                    btn.setOpacity(0.3);
+                });
 
-            root.getChildren().add(btn);
+                root.getChildren().add(btn);
+            }
         }
 
         root.getChildren().add(backButton);
@@ -89,42 +90,51 @@ public class Monitor {
         camButtons.getFirst().setOpacity(0.3);
 
         // player office
-        cameras.put(0, new Camera(new String[]{"0","0","0","0","0"}));
+        cameras.put(0, new Camera(new String[]{"0", "0", "0", "0", "0", "1"}));
 
-        cameras.get(1).getAnimatronics().put(1, new Nanobot(this, 5));
-        cameras.get(1).getAnimatronics().get(1).activate();
+        //cameras.get(1).addAnimatronic(new Nanobot(this, 12));
+        cameras.get(1).addAnimatronic(new Kota(this, 12));
+        //cameras.get(3).addAnimatronic(new Tasemnice(this, 12));
+
+        //cameras.get(1).getAnimatronics().get(1).activate();
+        cameras.get(1).getAnimatronics().get(3).activate();
+        //cameras.get(3).getAnimatronics().get(2).activate();
     }
 
     public void moveCloser(Animatronic animatronic) {
-        ArrayList<Integer> closerIDs = closerCameras(animatronic.getCurrentPosition());
+        ArrayList<Integer> closerIDs = closerCameras(animatronic);
         int newPosition = closerIDs.get(rd.nextInt(closerIDs.size()));
 
-        if(newPosition == 0) {
-            System.out.println("JUMPSCARE");
-            cameras.get(animatronic.getCurrentPosition()).getAnimatronics().remove(animatronic.getID());
-            cameras.get(animatronic.getStartPosition()).getAnimatronics().put(animatronic.getID(), animatronic);
-            animatronic.setCurrentPosition(animatronic.getStartPosition());
+        if (newPosition == 0) {
+            System.out.println("JUMPSCARE by " + animatronic.getName());
             return;
         }
 
-        cameras.get(newPosition).getAnimatronics().put(animatronic.getID(), animatronic);
-        cameras.get(animatronic.getCurrentPosition()).getAnimatronics().remove(animatronic.getID());
+        cameras.get(newPosition).addAnimatronic(animatronic);
+        cameras.get(animatronic.getCurrentPosition()).removeAnimatronic(animatronic.getID());
         animatronic.setCurrentPosition(newPosition);
     }
 
-    public ArrayList<Integer> closerCameras(int currentID) {
+    public ArrayList<Integer> closerCameras(Animatronic animatronic) {
         ArrayList<Integer> camIDs = new ArrayList<>();
-        for(int id : cameras.get(currentID).getNeighbouringIDs()) {
-            if(cameras.get(id).getDistance() <= cameras.get(currentID).getDistance()) {
+        for (int id : cameras.get(animatronic.getCurrentPosition()).getNeighbouringIDs()) {
+            if (cameras.get(id).getDistance() <= cameras.get(animatronic.getCurrentPosition()).getDistance() && !animatronic.isIllegalCam(id) && cameras.get(id).isFree()) {
                 camIDs.add(cameras.get(id).getID());
             }
         }
         return camIDs;
     }
 
+    public void moveSomewhere(Animatronic animatronic, int[] camIDs) {
+        int moveID = camIDs[rd.nextInt(camIDs.length)];
+        cameras.get(animatronic.getCurrentPosition()).removeAnimatronic(animatronic.getID());
+        cameras.get(moveID).addAnimatronic(animatronic);
+        animatronic.setCurrentPosition(moveID);
+    }
+
     public void closeThreads() {
-        for(Camera camera : cameras.values()) {
-            for(Animatronic animatronic : camera.getAnimatronics().values()) {
+        for (Camera camera : cameras.values()) {
+            for (Animatronic animatronic : camera.getAnimatronics().values()) {
                 animatronic.getMoveThread().interrupt();
             }
         }
@@ -132,5 +142,9 @@ public class Monitor {
 
     public Scene getScene() {
         return scene;
+    }
+
+    public HashMap<Integer, Camera> getCameras() {
+        return cameras;
     }
 }
