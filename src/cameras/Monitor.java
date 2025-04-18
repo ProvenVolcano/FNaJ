@@ -41,9 +41,13 @@ public class Monitor {
 
         cameras = Camera.createCameras("res/cameras.txt");
 
+        cameras.get(1).addAnimatronic(new Nanobot(this, 5));
+        cameras.get(1).addAnimatronic(new Kota(this, 5));
+        cameras.get(3).addAnimatronic(new Tasemnice(this, 5));
+
         camButtons = new ArrayList<>();
 
-        camImage = cameras.get(1).getImage();
+        camImage = cameras.get(1).getCurrentImage();
         root.getChildren().add(camImage);
 
         this.info = info;
@@ -66,7 +70,7 @@ public class Monitor {
                 btn.setOnAction(e -> {
 
                     root.getChildren().remove(camImage);
-                    camImage = camera.getImage();
+                    camImage = camera.getCurrentImage();
                     root.getChildren().add(camImage);
                     camImage.toBack();
 
@@ -92,10 +96,6 @@ public class Monitor {
         // player office
         cameras.put(0, new Camera(new String[]{"0", "0", "0", "0", "0", "1"}));
 
-        cameras.get(1).addAnimatronic(new Nanobot(this, 12));
-        cameras.get(1).addAnimatronic(new Kota(this, 12));
-        cameras.get(3).addAnimatronic(new Tasemnice(this, 12));
-
         cameras.get(1).getAnimatronics().get(1).activate();
         cameras.get(1).getAnimatronics().get(3).activate();
         cameras.get(3).getAnimatronics().get(2).activate();
@@ -103,6 +103,9 @@ public class Monitor {
 
     public void moveCloser(Animatronic animatronic) {
         ArrayList<Integer> closerIDs = closerCameras(animatronic);
+        if(closerIDs.isEmpty()) {
+            return;
+        }
         int newPosition = closerIDs.get(rd.nextInt(closerIDs.size()));
 
         if (newPosition == 0) {

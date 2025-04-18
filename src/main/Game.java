@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import office.*;
 
-public class Game implements Runnable {
+public class Game {
 
     private final int WIDTH;
     private final int HEIGHT;
@@ -19,16 +19,12 @@ public class Game implements Runnable {
     private OfficeRight officeRight;
     private InfoProperties info;
 
-    private Thread gameThread;
-
     public Game(Stage stage) {
-        WIDTH = 16*90;
-        HEIGHT = 9*90;
+        WIDTH = 16 * 90;
+        HEIGHT = 9 * 90;
 
         this.stage = stage;
-        gameThread = new Thread(this);
-
-        info = new InfoProperties(1);
+        info = new InfoProperties(1, this);
 
         Button backButton = new Button("Back");
         backButton.setOnMouseEntered(e -> {
@@ -47,14 +43,11 @@ public class Game implements Runnable {
         stage.setOnCloseRequest(e -> {
             monitor.closeThreads();
             info.closeThreads();
-            gameThread.interrupt();
         });
 
         stage.setScene(officeFront.getScene());
         stage.sizeToScene();
         stage.setResizable(false);
-
-        gameThread.start();
         stage.show();
     }
 
@@ -69,32 +62,26 @@ public class Game implements Runnable {
         return back;
     }
 
-    @Override
-    public void run() {
+    public void nightOver() {
+        // Will do later
+    }
 
-        while (info.getHour() != 6) {
+    public void powerOut() {
+
+        info.setUsage(0);
+        officeFront.powerOut();
+        officeLeft.powerOut();
+        officeRight.powerOut();
+
+        if (stage.getScene() == monitor.getScene()) {
+
             try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                return;
+                Platform.runLater(() -> {
+                    stage.setScene(officeFront.getScene());
+                });
+            } catch (Exception _) {
             }
-
-            if(info.getPower() <= 0) {
-                info.setUsage(0);
-                officeFront.powerOut();
-                officeLeft.powerOut();
-                officeRight.powerOut();
-
-                if(stage.getScene() == monitor.getScene()) {
-
-                    try {
-                        Platform.runLater(() -> {
-                            stage.setScene(officeFront.getScene());
-                        });
-                    } catch (Exception _) {}
-                }
-            }
-
         }
+
     }
 }

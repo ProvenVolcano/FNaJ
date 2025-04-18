@@ -5,15 +5,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Camera {
 
     private final int ID;
-    private ImageView image;
+    private ImageView currentImage;
+    private HashMap<String, ImageView> images;
     private int x;
     private int y;
     private int distance;
@@ -35,7 +38,7 @@ public class Camera {
         }
 
         try {
-            image = new ImageView(new Image("file:res/cameras/cam" + ID + "/default.png"));
+            currentImage = new ImageView(new Image("file:res/cameras/cam" + ID + "/default.png"));
             x = Integer.parseInt(tokens[3]);
             y = Integer.parseInt(tokens[4]);
         } catch (Exception e) {
@@ -45,6 +48,27 @@ public class Camera {
         distance = Integer.parseInt(tokens[2]);
         capacity = Integer.parseInt(tokens[5]);
         animatronics = new HashMap<>();
+        loadImages();
+    }
+
+    /**
+     * Loads all images of a camera from a directory into a hashmap
+     * Source: ChatGPT
+     */
+    private void loadImages() {
+        images = new HashMap<>();
+
+        File dir = new File("res/cameras/cam" + ID + "/");
+
+        File[] files = dir.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                Image image = new Image(file.toURI().toString());
+                images.put(file.getName(), new ImageView(image));
+            }
+        }
+
     }
 
     public boolean isClosed() {
@@ -59,8 +83,8 @@ public class Camera {
         return ID;
     }
 
-    public ImageView getImage() {
-        return image;
+    public ImageView getCurrentImage() {
+        return currentImage;
     }
 
     public int getX() {
@@ -76,15 +100,35 @@ public class Camera {
     }
 
     public boolean addAnimatronic(Animatronic animatronic) {
-        if(isFree()) {
+        if (isFree()) {
             animatronics.put(animatronic.getID(), animatronic);
+            currentImage = images.get(newImageName());
             return true;
         }
         return false;
     }
 
+    private String newImageName() {
+        if(animatronics.isEmpty()){
+            return "default.png";
+        }
+
+        String name = "";
+
+        ArrayList<Integer> IDs = new ArrayList<>(animatronics.keySet());
+        Collections.sort(IDs);
+
+        for(int i = 0; i < IDs.size() - 1; i++) {
+            name += IDs.get(i).toString() + "_";
+        }
+
+        name += IDs.getLast().toString() + ".png";
+        return name;
+    }
+
     public void removeAnimatronic(int id) {
         animatronics.remove(id);
+        currentImage = images.get(newImageName());
     }
 
     public boolean isFree() {
@@ -101,10 +145,6 @@ public class Camera {
 
     public boolean isOffice() {
         return office;
-    }
-
-    public int getCapacity() {
-        return capacity;
     }
 
     public static HashMap<Integer, Camera> createCameras(String file) {

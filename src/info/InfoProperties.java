@@ -2,6 +2,7 @@ package info;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import main.Game;
 
 public class InfoProperties {
 
@@ -13,7 +14,7 @@ public class InfoProperties {
     private Thread hourThread;
     private StringProperty powerProperty, usageProperty, hourProperty;
 
-    public InfoProperties(int night) {
+    public InfoProperties(int night, Game game) {
 
         this.night = night;
         usage = 1;
@@ -35,6 +36,7 @@ public class InfoProperties {
                 power -= 0.1*usage;
                 powerProperty.set("Power: " + Math.round(power) + "%");
             }
+            game.powerOut();
 
         });
 
@@ -50,6 +52,7 @@ public class InfoProperties {
                 hour += 1;
                 hourProperty.set(hour + " AM");
             }
+            game.nightOver();
 
         });
 
