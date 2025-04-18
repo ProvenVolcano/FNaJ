@@ -5,7 +5,7 @@ import cameras.Monitor;
 public class Kota extends Animatronic {
 
     public Kota(Monitor monitor, int difficulty) {
-        super(3, 1, difficulty, monitor, new int[]{11}, new int[]{1, 2, 3, 4}, 3500, "Kota");
+        super(3, 1, difficulty, monitor, new int[]{11}, new int[]{1, 2, 3, 4}, 6000, "Kota");
     }
 
     @Override
