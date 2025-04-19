@@ -1,12 +1,15 @@
 package cameras;
 
 import animatronics.*;
+import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import info.InfoPane;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +21,8 @@ public class Monitor {
     private Pane root;
     private ImageView camImage;
     private ImageView schemeImage;
+    private ImageView staticGif;
+    private FadeTransition ft;
     private InfoPane info;
 
     private ArrayList<Button> camButtons;
@@ -35,11 +40,14 @@ public class Monitor {
         backButton.setLayoutX((double) width / 2 - backButton.getPrefWidth() / 2);
         backButton.setLayoutY(height - backButton.getPrefHeight() - 15);
 
+        staticGif = new ImageView(new Image("file:res/static.gif"));
+        staticGif.setOpacity(0);
+
         schemeImage = new ImageView(new Image("file:res/camScheme.png"));
         schemeImage.setX(940);
         schemeImage.setY(400);
 
-        cameras = Camera.createCameras("res/cameras.txt");
+        cameras = Camera.createCameras("res/cameras.txt", this);
 
         cameras.get(1).addAnimatronic(new Nanobot(this, 5));
         cameras.get(1).addAnimatronic(new Kota(this, 5));
@@ -52,6 +60,10 @@ public class Monitor {
 
         this.info = info;
         root.getChildren().add(this.info.getRoot());
+
+        ft = new FadeTransition(new Duration(770), staticGif);
+        ft.setFromValue(1.0);
+        ft.setToValue(0);
 
         //creating cameras
         for (Camera camera : cameras.values()) {
@@ -69,6 +81,8 @@ public class Monitor {
 
                 btn.setOnAction(e -> {
 
+                    playStaticFade();
+
                     root.getChildren().remove(camImage);
                     camImage = camera.getCurrentImage();
                     root.getChildren().add(camImage);
@@ -84,6 +98,7 @@ public class Monitor {
             }
         }
 
+        root.getChildren().add(staticGif);
         root.getChildren().add(backButton);
         root.getChildren().add(schemeImage);
 
@@ -94,22 +109,27 @@ public class Monitor {
         camButtons.getFirst().setOpacity(0.3);
 
         // player office
-        cameras.put(0, new Camera(new String[]{"0", "0", "0", "0", "0", "1"}));
+        cameras.put(0, new Camera(new String[]{"0", "0", "0", "0", "0", "1"}, this));
 
         cameras.get(1).getAnimatronics().get(1).activate();
         cameras.get(1).getAnimatronics().get(3).activate();
         cameras.get(3).getAnimatronics().get(2).activate();
     }
 
+    public void playStaticFade() {
+        ft.stop();
+        ft.playFromStart();
+    }
+
     public void moveCloser(Animatronic animatronic) {
         ArrayList<Integer> closerIDs = closerCameras(animatronic);
-        if(closerIDs.isEmpty()) {
+        if (closerIDs.isEmpty()) {
             return;
         }
         int newPosition = closerIDs.get(rd.nextInt(closerIDs.size()));
 
         if (newPosition == 0) {
-            if(!cameras.get(animatronic.getCurrentPosition()).isClosed()){
+            if (!cameras.get(animatronic.getCurrentPosition()).isClosed()) {
                 System.out.println("JUMPSCARE by " + animatronic.getName());
             } else System.out.println("Door blocked");
             return;
@@ -143,6 +163,27 @@ public class Monitor {
                 animatronic.getMoveThread().interrupt();
             }
         }
+    }
+
+    public void updateCameraImage(int id) {
+        try {
+            Platform.runLater(() -> {
+                ft.stop();
+                staticGif.setOpacity(1);
+
+                root.getChildren().remove(camImage);
+                camImage = cameras.get(id).getCurrentImage();
+                root.getChildren().add(camImage);
+                camImage.toBack();
+
+                staticGif.setOpacity(1);
+            });
+        } catch (Exception _) {
+        }
+    }
+
+    public boolean isCurrentCamera(int id) {
+        return cameras.get(id).getCurrentImage() == camImage;
     }
 
     public Scene getScene() {

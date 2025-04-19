@@ -26,6 +26,7 @@ public class OfficeFront extends OfficeTemplate {
         monitorButton.setOnAction(e -> {
             if(ip.getPower() > 0) {
                 ip.increaseUsage();
+                monitor.playStaticFade();
                 stage.setScene(monitor.getScene());
             }
         });

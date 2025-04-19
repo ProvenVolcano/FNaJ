@@ -25,12 +25,14 @@ public class Camera {
     private int capacity;
     private boolean office;
     private boolean closed;
+    private Monitor monitor;
 
-    public Camera(String[] tokens) {
+    public Camera(String[] tokens, Monitor monitor) {
         ID = Integer.parseInt(tokens[0]);
         neighbouringIDs = new ArrayList<>();
         office = false;
         closed = false;
+        this.monitor = null;
 
         String[] neighboursTemp = tokens[1].split("\\.");
         for (String s : neighboursTemp) {
@@ -41,6 +43,8 @@ public class Camera {
             currentImage = new ImageView(new Image("file:res/cameras/cam" + ID + "/default.png"));
             x = Integer.parseInt(tokens[3]);
             y = Integer.parseInt(tokens[4]);
+            this.monitor = monitor;
+
         } catch (Exception e) {
             office = true;
         }
@@ -102,10 +106,21 @@ public class Camera {
     public boolean addAnimatronic(Animatronic animatronic) {
         if (isFree()) {
             animatronics.put(animatronic.getID(), animatronic);
-            currentImage = images.get(newImageName());
+            updateCamera();
             return true;
         }
         return false;
+    }
+
+    private void updateCamera() {
+        if(monitor == null) {
+            return;
+        }
+
+        if(monitor.isCurrentCamera(ID)){
+            currentImage = images.get(newImageName());
+            monitor.updateCameraImage(ID);
+        } else currentImage = images.get(newImageName());
     }
 
     private String newImageName() {
@@ -123,12 +138,13 @@ public class Camera {
         }
 
         name += IDs.getLast().toString() + ".png";
+        System.out.println(name + " cam" + ID);
         return name;
     }
 
     public void removeAnimatronic(int id) {
         animatronics.remove(id);
-        currentImage = images.get(newImageName());
+        updateCamera();
     }
 
     public boolean isFree() {
@@ -147,7 +163,7 @@ public class Camera {
         return office;
     }
 
-    public static HashMap<Integer, Camera> createCameras(String file) {
+    public static HashMap<Integer, Camera> createCameras(String file, Monitor monitor) {
         HashMap<Integer, Camera> cameras = new HashMap<>();
 
         try {
@@ -156,7 +172,7 @@ public class Camera {
             while ((line = br.readLine()) != null) {
 
                 try {
-                    Camera camera = new Camera(line.split(","));
+                    Camera camera = new Camera(line.split(","), monitor);
                     cameras.put(camera.getID(), camera);
                 } catch (Exception e) {
                     System.out.println("A camera failed to be created");
