@@ -28,11 +28,13 @@ public class Menu {
     private AnchorPane root;
 
     private ImageView background;
+    private Text title;
     private Text newGameText;
     private Text continueText;
     private Text night6Text;
     private Text customNightText;
     private Text exitText;
+    private Text continueText2;
 
     private VBox buttonLayout;
 
@@ -48,18 +50,41 @@ public class Menu {
         root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
         scene = new Scene(root, WIDTH, HEIGHT);
 
-        createButtons();
-
-        buttonLayout = new VBox();
-        buttonLayout.setSpacing(15);
-        AnchorPane.setBottomAnchor(buttonLayout, 100.0);
-        AnchorPane.setLeftAnchor(buttonLayout, 120.0);
-        buttonLayout.getChildren().addAll(newGameText, continueText, night6Text, customNightText, exitText);
-
         background = new ImageView("file:res/static.gif");
         background.setOpacity(0.15);
         root.getChildren().add(background);
+
+        title = new Text("Five \nNights \nat \nJečná");
+        title.setFill(Color.rgb(225, 8, 8));
+        title.setFont(Font.font("Courier New", FontWeight.BOLD, 60));
+        title.setLineSpacing(7);
+        AnchorPane.setTopAnchor(title, 50.0);
+        AnchorPane.setLeftAnchor(title, 120.0);
+
+        createButtons();
+
+        buttonLayout = new VBox();
+        buttonLayout.setSpacing(17);
+        AnchorPane.setTopAnchor(buttonLayout, 450.0);
+        AnchorPane.setLeftAnchor(buttonLayout, 120.0);
+
+        buttonLayout.getChildren().addAll(newGameText);
+
+        if(night > 1) {
+            buttonLayout.getChildren().add(continueText);
+            root.getChildren().add(continueText2);
+        }
+        if(night > 5) {
+            buttonLayout.getChildren().add(night6Text);
+        }
+        if(night > 6) {
+            buttonLayout.getChildren().add(customNightText);
+        }
+
+        buttonLayout.getChildren().add(exitText);
+
         root.getChildren().add(buttonLayout);
+        root.getChildren().add(title);
 
         stage.setScene(scene);
         stage.sizeToScene();
@@ -87,12 +112,37 @@ public class Menu {
         newGameText.setOnMouseClicked(e -> {
             startGame(1);
         });
+        newGameText.setOnMouseEntered(e -> {
+            newGameText.setUnderline(true);
+        });
+        newGameText.setOnMouseExited(e -> {
+            newGameText.setUnderline(false);
+        });
+
+        int tempNight = night;
+        if(night > 5) {
+            tempNight = 5;
+        }
+        continueText2 = new Text("(Night " + tempNight + ")");
+        continueText2.setFont(font);
+        continueText2.setFill(Color.WHITE);
+        continueText2.setX(325);
+        continueText2.setY(547);
+        continueText2.setVisible(false);
 
         continueText = new Text("Continue");
         continueText.setFont(font);
         continueText.setFill(Color.WHITE);
         continueText.setOnMouseClicked(e -> {
             startGame(night);
+        });
+        continueText.setOnMouseEntered(e -> {
+            continueText.setUnderline(true);
+            continueText2.setVisible(true);
+        });
+        continueText.setOnMouseExited(e -> {
+            continueText.setUnderline(false);
+            continueText2.setVisible(false);
         });
 
         night6Text = new Text("6th Night");
@@ -101,6 +151,12 @@ public class Menu {
         night6Text.setOnMouseClicked(e -> {
             startGame(6);
         });
+        night6Text.setOnMouseEntered(e -> {
+            night6Text.setUnderline(true);
+        });
+        night6Text.setOnMouseExited(e -> {
+            night6Text.setUnderline(false);
+        });
 
         customNightText = new Text("Custom Night");
         customNightText.setFont(font);
@@ -108,12 +164,24 @@ public class Menu {
         customNightText.setOnMouseClicked(e -> {
             startGame(7);
         });
+        customNightText.setOnMouseEntered(e -> {
+            customNightText.setUnderline(true);
+        });
+        customNightText.setOnMouseExited(e -> {
+            customNightText.setUnderline(false);
+        });
 
         exitText = new Text("Exit");
         exitText.setFont(font);
         exitText.setFill(Color.WHITE);
         exitText.setOnMouseClicked(e -> {
             System.exit(0);
+        });
+        exitText.setOnMouseEntered(e -> {
+            exitText.setUnderline(true);
+        });
+        exitText.setOnMouseExited(e -> {
+            exitText.setUnderline(false);
         });
     }
 
