@@ -59,11 +59,10 @@ public class Monitor {
         root.getChildren().add(camImage);
 
         this.info = info;
-        root.getChildren().add(this.info.getRoot());
 
         ft = new FadeTransition(new Duration(770), staticGif);
         ft.setFromValue(1.0);
-        ft.setToValue(0);
+        ft.setToValue(0.2);
 
         //creating cameras
         for (Camera camera : cameras.values()) {
@@ -99,6 +98,7 @@ public class Monitor {
         }
 
         root.getChildren().add(staticGif);
+        root.getChildren().add(info.getRoot());
         root.getChildren().add(backButton);
         root.getChildren().add(schemeImage);
 

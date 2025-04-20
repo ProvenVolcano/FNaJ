@@ -9,9 +9,6 @@ import office.*;
 
 public class Game {
 
-    private final int WIDTH;
-    private final int HEIGHT;
-
     private Stage stage;
     private Monitor monitor;
     private OfficeFront officeFront;
@@ -19,12 +16,10 @@ public class Game {
     private OfficeRight officeRight;
     private InfoProperties info;
 
-    public Game(Stage stage) {
-        WIDTH = 16 * 90;
-        HEIGHT = 9 * 90;
+    public Game(Stage stage, int width, int height, int night) {
 
         this.stage = stage;
-        info = new InfoProperties(1, this);
+        info = new InfoProperties(night, this);
 
         Button backButton = new Button("Back");
         backButton.setOnMouseEntered(e -> {
@@ -32,11 +27,11 @@ public class Game {
             stage.setScene(officeFront.getScene());
         });
 
-        monitor = new Monitor(WIDTH, HEIGHT, backButton, new InfoPane(info, WIDTH, HEIGHT));
+        monitor = new Monitor(width, height, backButton, new InfoPane(info, width, height));
 
-        officeLeft = new OfficeLeft(WIDTH, HEIGHT, backButton(stage), new InfoPane(info, WIDTH, HEIGHT), info, monitor.getCameras().get(9));
-        officeRight = new OfficeRight(WIDTH, HEIGHT, backButton(stage), new InfoPane(info, WIDTH, HEIGHT), monitor.getCameras().get(11));
-        officeFront = new OfficeFront(stage, WIDTH, HEIGHT, officeLeft, officeRight, monitor, new InfoPane(info, WIDTH, HEIGHT), info, monitor.getCameras().get(10));
+        officeLeft = new OfficeLeft(width, height, backButton(stage), new InfoPane(info, width, height), info, monitor.getCameras().get(9));
+        officeRight = new OfficeRight(width, height, backButton(stage), new InfoPane(info, width, height), monitor.getCameras().get(11));
+        officeFront = new OfficeFront(stage, width, height, officeLeft, officeRight, monitor, new InfoPane(info, width, height), info, monitor.getCameras().get(10));
 
         info.startNight();
 
@@ -46,9 +41,6 @@ public class Game {
         });
 
         stage.setScene(officeFront.getScene());
-        stage.sizeToScene();
-        stage.setResizable(false);
-        stage.show();
     }
 
     private Button backButton(Stage stage) {
