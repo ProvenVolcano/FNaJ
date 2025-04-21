@@ -40,11 +40,9 @@ public class Game {
             monitor.closeThreads();
             info.closeThreads();
         });
-
-        startGame();
     }
 
-    private void startGame() {
+    public void startGame() {
         stage.setScene(officeFront.getScene());
         info.startNight();
     }

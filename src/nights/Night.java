@@ -19,7 +19,7 @@ public abstract class Night {
         return animatronics;
     }
 
-    public void night() {
+    public void nextHour() {
         switch (hour) {
             case 0:
                 for(Animatronic a : animatronics.values()) {
@@ -61,13 +61,12 @@ public abstract class Night {
 
     public static Night factory(int night) {
         return switch (night) {
-            case 1 -> new NightOne();
             case 2 -> new NightTwo();
             case 3 -> new NightThree();
             case 4 -> new NightFour();
             case 5 -> new NightFive();
             case 6 -> new NightSix();
-            default -> null;
+            default -> new NightOne();
         };
     }
 }

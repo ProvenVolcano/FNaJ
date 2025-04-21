@@ -45,7 +45,7 @@ public class InfoProperties {
         hourThread = new Thread(() -> {
 
             for (int i = 0; i < 6; i++) {
-                night.night();
+                night.nextHour();
 
                 try{
                     Thread.sleep(60000);

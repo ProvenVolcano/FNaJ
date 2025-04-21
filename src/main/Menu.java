@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import loadScreens.StartNightScreen;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,7 +22,7 @@ public class Menu {
     private final int WIDTH;
     private final int HEIGHT;
 
-    private int night;
+    private int nightUnlocked;
 
     private Stage stage;
     private Scene scene;
@@ -70,14 +71,14 @@ public class Menu {
 
         buttonLayout.getChildren().addAll(newGameText);
 
-        if(night > 1) {
+        if(nightUnlocked > 1) {
             buttonLayout.getChildren().add(continueText);
             root.getChildren().add(continueText2);
         }
-        if(night > 5) {
+        if(nightUnlocked > 5) {
             buttonLayout.getChildren().add(night6Text);
         }
-        if(night > 6) {
+        if(nightUnlocked > 6) {
             buttonLayout.getChildren().add(customNightText);
         }
 
@@ -95,9 +96,9 @@ public class Menu {
     private void loadSave() {
         try {
             BufferedReader br = new BufferedReader(new FileReader("res/save.txt"));
-            night = Integer.parseInt(br.readLine());
+            nightUnlocked = Integer.parseInt(br.readLine());
         } catch (IOException e) {
-            night = 1;
+            nightUnlocked = 1;
             System.out.println(e.getMessage());
         }
     }
@@ -119,7 +120,7 @@ public class Menu {
             newGameText.setUnderline(false);
         });
 
-        int tempNight = Math.min(night, 5);
+        int tempNight = Math.min(nightUnlocked, 5);
 
         continueText2 = new Text("(Night " + tempNight + ")");
         continueText2.setFont(font);
@@ -184,6 +185,16 @@ public class Menu {
     }
 
     private void startGame(int night) {
+        StartNightScreen startScreen = new StartNightScreen(WIDTH, HEIGHT, night);
+        stage.setScene(startScreen.getScene());
         Game game = new Game(stage, WIDTH, HEIGHT, night);
+
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        game.startGame();
     }
 }
