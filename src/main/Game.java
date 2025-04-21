@@ -5,6 +5,7 @@ import info.*;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import nights.Night;
 import office.*;
 
 public class Game {
@@ -16,10 +17,12 @@ public class Game {
     private OfficeRight officeRight;
     private InfoProperties info;
 
-    public Game(Stage stage, int width, int height, int night) {
+    public Game(Stage stage, int width, int height, int nightNumber) {
 
         this.stage = stage;
-        info = new InfoProperties(night, this);
+
+        Night night = Night.factory(nightNumber);
+        info = new InfoProperties(nightNumber, this, night);
 
         Button backButton = new Button("Back");
         backButton.setOnMouseEntered(e -> {
@@ -27,20 +30,23 @@ public class Game {
             stage.setScene(officeFront.getScene());
         });
 
-        monitor = new Monitor(width, height, backButton, new InfoPane(info, width, height));
+        monitor = new Monitor(width, height, backButton, new InfoPane(info, width, height), night.getAnimatronics());
 
         officeLeft = new OfficeLeft(width, height, backButton(stage), new InfoPane(info, width, height), info, monitor.getCameras().get(9));
         officeRight = new OfficeRight(width, height, backButton(stage), new InfoPane(info, width, height), monitor.getCameras().get(11));
         officeFront = new OfficeFront(stage, width, height, officeLeft, officeRight, monitor, new InfoPane(info, width, height), info, monitor.getCameras().get(10));
-
-        info.startNight();
 
         stage.setOnCloseRequest(e -> {
             monitor.closeThreads();
             info.closeThreads();
         });
 
+        startGame();
+    }
+
+    private void startGame() {
         stage.setScene(officeFront.getScene());
+        info.startNight();
     }
 
     private Button backButton(Stage stage) {

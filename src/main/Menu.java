@@ -119,10 +119,8 @@ public class Menu {
             newGameText.setUnderline(false);
         });
 
-        int tempNight = night;
-        if(night > 5) {
-            tempNight = 5;
-        }
+        int tempNight = Math.min(night, 5);
+
         continueText2 = new Text("(Night " + tempNight + ")");
         continueText2.setFont(font);
         continueText2.setFill(Color.WHITE);
@@ -134,7 +132,7 @@ public class Menu {
         continueText.setFont(font);
         continueText.setFill(Color.WHITE);
         continueText.setOnMouseClicked(e -> {
-            startGame(night);
+            startGame(tempNight);
         });
         continueText.setOnMouseEntered(e -> {
             continueText.setUnderline(true);

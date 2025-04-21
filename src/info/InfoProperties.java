@@ -3,6 +3,7 @@ package info;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import main.Game;
+import nights.Night;
 
 public class InfoProperties {
 
@@ -14,9 +15,9 @@ public class InfoProperties {
     private Thread hourThread;
     private StringProperty powerProperty, usageProperty, hourProperty;
 
-    public InfoProperties(int night, Game game) {
+    public InfoProperties(int nightNumber, Game game, Night night) {
 
-        this.night = night;
+        this.night = nightNumber;
         usage = 1;
         power = 100;
         hour = 0;
@@ -44,6 +45,8 @@ public class InfoProperties {
         hourThread = new Thread(() -> {
 
             for (int i = 0; i < 6; i++) {
+                night.night();
+
                 try{
                     Thread.sleep(60000);
                 } catch (InterruptedException e) {

@@ -18,12 +18,11 @@ public abstract class Animatronic implements Runnable {
     protected int baseMoveTime;
     protected String name;
 
-    public Animatronic(int ID, int startPosition, int difficulty, Monitor monitor, int[] illegalCams, int[] returnCams, int baseMoveTime, String name) {
+    public Animatronic(int ID, int startPosition, int difficulty, int[] illegalCams, int[] returnCams, int baseMoveTime, String name) {
         this.ID = ID;
         this.startPosition = startPosition;
         this.currentPosition = startPosition;
         this.difficulty = difficulty;
-        this.monitor = monitor;
         this.illegalCams = illegalCams;
         this.returnCams = returnCams;
         this.baseMoveTime = baseMoveTime;
@@ -65,6 +64,10 @@ public abstract class Animatronic implements Runnable {
         }
     }
 
+    public void setMonitor(Monitor monitor) {
+        this.monitor = monitor;
+    }
+
     public String getName() {
         return name;
     }
@@ -85,6 +88,17 @@ public abstract class Animatronic implements Runnable {
         return currentPosition;
     }
 
+    public int getStartPosition() {
+        return startPosition;
+    }
+
+    public void increaseDifficulty(int howMuch) {
+        difficulty += howMuch;
+        if(difficulty > 20) {
+            difficulty = 20;
+        }
+    }
+
     public boolean isIllegalCam(int id) {
         for (int illegalCam : illegalCams) {
             if (illegalCam == id) {
@@ -97,5 +111,14 @@ public abstract class Animatronic implements Runnable {
     public void activate() {
         System.out.println(name + " activated in " + currentPosition);
         moveThread.start();
+    }
+
+    public static Animatronic factory(int id, int difficulty) {
+        return switch (id) {
+            case 1 -> new Nanobot(difficulty);
+            case 2 -> new Tasemnice(difficulty);
+            case 3 -> new Kota(difficulty);
+            default -> null;
+        };
     }
 }

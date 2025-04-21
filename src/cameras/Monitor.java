@@ -30,7 +30,7 @@ public class Monitor {
 
     private Random rd;
 
-    public Monitor(int width, int height, Button backButton, InfoPane info) {
+    public Monitor(int width, int height, Button backButton, InfoPane info, HashMap<Integer, Animatronic> animatronics) {
         root = new Pane();
         scene = new Scene(root, width, height);
         rd = new Random();
@@ -48,10 +48,6 @@ public class Monitor {
         schemeImage.setY(400);
 
         cameras = Camera.createCameras("res/cameras.txt", this);
-
-        cameras.get(1).addAnimatronic(new Nanobot(this, 5));
-        cameras.get(1).addAnimatronic(new Kota(this, 5));
-        cameras.get(3).addAnimatronic(new Tasemnice(this, 5));
 
         camButtons = new ArrayList<>();
 
@@ -110,10 +106,14 @@ public class Monitor {
 
         // player office
         cameras.put(0, new Camera(new String[]{"0", "0", "0", "0", "0", "1"}, this));
+        addAnimatronics(animatronics);
+    }
 
-        cameras.get(1).getAnimatronics().get(1).activate();
-        cameras.get(1).getAnimatronics().get(3).activate();
-        cameras.get(3).getAnimatronics().get(2).activate();
+    public void addAnimatronics(HashMap<Integer, Animatronic> animatronics) {
+        for (Animatronic a : animatronics.values()) {
+            a.setMonitor(this);
+            cameras.get(a.getStartPosition()).addAnimatronic(a);
+        }
     }
 
     public void playStaticFade() {

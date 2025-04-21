@@ -1,13 +1,11 @@
 package animatronics;
 
-import cameras.Monitor;
-
 public class Tasemnice extends Animatronic {
 
     private int phase;
 
-    public Tasemnice(Monitor monitor, int difficulty) {
-        super(2, 3, difficulty, monitor, new int[]{1, 8, 9, 10}, new int[]{3}, 6500, "Tasemnice");
+    public Tasemnice(int difficulty) {
+        super(2, 3, difficulty, new int[]{1, 8, 9, 10}, new int[]{3}, 6500, "Tasemnice");
     }
 
     @Override
