@@ -5,4 +5,5 @@ module main {
     exports cameras;
     exports animatronics;
     exports info;
+    exports nights;
 }
