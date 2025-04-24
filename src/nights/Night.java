@@ -19,6 +19,12 @@ public abstract class Night {
         return animatronics;
     }
 
+    public void deactivateAnimatronics() {
+        for (Animatronic animatronic : animatronics.values()) {
+            animatronic.getMoveThread().interrupt();
+        }
+    }
+
     public void nextHour() {
         switch (hour) {
             case 0:

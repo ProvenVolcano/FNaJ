@@ -16,12 +16,15 @@ public class Game {
     private OfficeLeft officeLeft;
     private OfficeRight officeRight;
     private InfoProperties info;
+    private Night night;
+    private Menu menu;
 
-    public Game(Stage stage, int width, int height, int nightNumber) {
+    public Game(Stage stage, int width, int height, int nightNumber, Menu menu) {
 
         this.stage = stage;
+        this.menu = menu;
 
-        Night night = Night.factory(nightNumber);
+        night = Night.factory(nightNumber);
         info = new InfoProperties(nightNumber, this, night);
 
         Button backButton = new Button("Back");
@@ -59,7 +62,8 @@ public class Game {
     }
 
     public void nightOver() {
-        // Will do later
+        info.closeThreads();
+        menu.endNight();
     }
 
     public void powerOut() {

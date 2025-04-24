@@ -56,6 +56,7 @@ public class InfoProperties {
                 hourProperty.set(hour + " AM");
             }
             game.nightOver();
+            night.deactivateAnimatronics();
 
         });
 

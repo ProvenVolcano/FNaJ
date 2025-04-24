@@ -1,5 +1,7 @@
 package main;
 
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -11,6 +13,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import loadScreens.EndNightScreen;
 import loadScreens.StartNightScreen;
 
 import java.io.BufferedReader;
@@ -187,7 +191,7 @@ public class Menu {
     private void startGame(int night) {
         StartNightScreen startScreen = new StartNightScreen(WIDTH, HEIGHT, night);
         stage.setScene(startScreen.getScene());
-        Game game = new Game(stage, WIDTH, HEIGHT, night);
+        Game game = new Game(stage, WIDTH, HEIGHT, night, this);
 
         try {
             Thread.sleep(2500);
@@ -196,5 +200,15 @@ public class Menu {
         }
 
         game.startGame();
+    }
+
+    public void endNight() {
+        Platform.runLater(() -> {
+            EndNightScreen endScreen = new EndNightScreen(WIDTH, HEIGHT, stage, scene);
+            stage.setScene(endScreen.getScene());
+            endScreen.play();
+        });
+        nightUnlocked++;
+        continueText2.setText("(Night " + nightUnlocked + ")");
     }
 }

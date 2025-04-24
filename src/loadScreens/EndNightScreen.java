@@ -26,7 +26,7 @@ public class EndNightScreen {
     public EndNightScreen(int width, int height, Stage stage, Scene scene) {
         root = new Pane();
         root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-        scene = new Scene(root, width, height);
+        this.scene = new Scene(root, width, height);
 
         amText = new Text("  AM");
         amText.setFont(Font.font("Courier New", FontWeight.BOLD, 80));
@@ -72,6 +72,11 @@ public class EndNightScreen {
 
     private void setAfterFinish(Stage stage, Scene scene) {
         moveTransition.setOnFinished(e -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
             stage.setScene(scene);
         });
     }
