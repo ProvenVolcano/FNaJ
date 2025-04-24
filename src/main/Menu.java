@@ -1,6 +1,5 @@
 package main;
 
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -13,13 +12,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import loadScreens.EndNightScreen;
 import loadScreens.StartNightScreen;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class Menu {
 
@@ -73,20 +69,7 @@ public class Menu {
         AnchorPane.setTopAnchor(buttonLayout, 450.0);
         AnchorPane.setLeftAnchor(buttonLayout, 120.0);
 
-        buttonLayout.getChildren().addAll(newGameText);
-
-        if(nightUnlocked > 1) {
-            buttonLayout.getChildren().add(continueText);
-            root.getChildren().add(continueText2);
-        }
-        if(nightUnlocked > 5) {
-            buttonLayout.getChildren().add(night6Text);
-        }
-        if(nightUnlocked > 6) {
-            buttonLayout.getChildren().add(customNightText);
-        }
-
-        buttonLayout.getChildren().add(exitText);
+        buttonUpdate();
 
         root.getChildren().add(buttonLayout);
         root.getChildren().add(title);
@@ -101,9 +84,18 @@ public class Menu {
         try {
             BufferedReader br = new BufferedReader(new FileReader("res/save.txt"));
             nightUnlocked = Integer.parseInt(br.readLine());
-        } catch (IOException e) {
+        } catch (Exception e) {
             nightUnlocked = 1;
-            System.out.println(e.getMessage());
+        }
+    }
+
+    private void saveProgress() {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("res/save.txt"));
+            bw.write(String.valueOf(nightUnlocked));
+            bw.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -125,7 +117,6 @@ public class Menu {
         });
 
         int tempNight = Math.min(nightUnlocked, 5);
-
         continueText2 = new Text("(Night " + tempNight + ")");
         continueText2.setFont(font);
         continueText2.setFill(Color.WHITE);
@@ -137,7 +128,8 @@ public class Menu {
         continueText.setFont(font);
         continueText.setFill(Color.WHITE);
         continueText.setOnMouseClicked(e -> {
-            startGame(tempNight);
+            int tempNight2 = Math.min(nightUnlocked, 5);
+            startGame(tempNight2);
         });
         continueText.setOnMouseEntered(e -> {
             continueText.setUnderline(true);
@@ -178,6 +170,7 @@ public class Menu {
         exitText.setFont(font);
         exitText.setFill(Color.WHITE);
         exitText.setOnMouseClicked(e -> {
+            saveProgress();
             System.exit(0);
         });
         exitText.setOnMouseEntered(e -> {
@@ -202,13 +195,47 @@ public class Menu {
         game.startGame();
     }
 
-    public void endNight() {
+    public void endNight(int playedNight) {
         Platform.runLater(() -> {
             EndNightScreen endScreen = new EndNightScreen(WIDTH, HEIGHT, stage, scene);
             stage.setScene(endScreen.getScene());
             endScreen.play();
         });
-        nightUnlocked++;
-        continueText2.setText("(Night " + nightUnlocked + ")");
+        increaseNight(playedNight);
+        int tempNight = Math.min(nightUnlocked, 5);
+        continueText2.setText("(Night " + tempNight + ")");
+        removeButtons();
+        buttonUpdate();
+    }
+
+    private void increaseNight(int playedNight) {
+        if(nightUnlocked < 6 && playedNight < 6) {
+            nightUnlocked++;
+        } else if(playedNight > 5 && nightUnlocked < 8) {
+            nightUnlocked++;
+        }
+    }
+
+    private void removeButtons() {
+        root.getChildren().remove(continueText2);
+        buttonLayout.getChildren().clear();
+    }
+
+    private void buttonUpdate() {
+
+        buttonLayout.getChildren().add(newGameText);
+
+        if(nightUnlocked > 1) {
+            buttonLayout.getChildren().add(continueText);
+            root.getChildren().add(continueText2);
+        }
+        if(nightUnlocked > 5) {
+            buttonLayout.getChildren().add(night6Text);
+        }
+        if(nightUnlocked > 6) {
+            buttonLayout.getChildren().add(customNightText);
+        }
+
+        buttonLayout.getChildren().add(exitText);
     }
 }

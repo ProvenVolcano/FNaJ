@@ -17,12 +17,14 @@ public class Game {
     private OfficeRight officeRight;
     private InfoProperties info;
     private Night night;
+    private int nightNumber;
     private Menu menu;
 
     public Game(Stage stage, int width, int height, int nightNumber, Menu menu) {
 
         this.stage = stage;
         this.menu = menu;
+        this.nightNumber = nightNumber;
 
         night = Night.factory(nightNumber);
         info = new InfoProperties(nightNumber, this, night);
@@ -63,7 +65,7 @@ public class Game {
 
     public void nightOver() {
         info.closeThreads();
-        menu.endNight();
+        menu.endNight(nightNumber);
     }
 
     public void powerOut() {
