@@ -27,6 +27,7 @@ public class Menu {
     private AnchorPane root;
 
     private ImageView background;
+    private ImageView bgImage;
     private Text title;
     private Text newGameText;
     private Text continueText;
@@ -52,7 +53,13 @@ public class Menu {
         root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
         scene = new Scene(root, WIDTH, HEIGHT);
 
-        background = new ImageView("file:res/static.gif");
+        bgImage = new ImageView("file:res/images/jecmen.png");
+        bgImage.setOpacity(0.25);
+        AnchorPane.setTopAnchor(bgImage, 0.0);
+        AnchorPane.setRightAnchor(bgImage, 0.0);
+        root.getChildren().add(bgImage);
+
+        background = new ImageView("file:res/images/static.gif");
         background.setOpacity(0.15);
         root.getChildren().add(background);
 
@@ -67,7 +74,7 @@ public class Menu {
         stars.setSpacing(20);
         AnchorPane.setTopAnchor(stars, 340.0);
         AnchorPane.setLeftAnchor(stars, 120.0);
-        starImage = new Image("file:res/star.png");
+        starImage = new Image("file:res/images/star.png");
         updateStars();
 
         createButtons();

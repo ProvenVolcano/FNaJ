@@ -40,14 +40,14 @@ public class Monitor {
         backButton.setLayoutX((double) width / 2 - backButton.getPrefWidth() / 2);
         backButton.setLayoutY(height - backButton.getPrefHeight() - 15);
 
-        staticGif = new ImageView(new Image("file:res/static.gif"));
+        staticGif = new ImageView(new Image("file:res/images/static.gif"));
         staticGif.setOpacity(0);
 
-        schemeImage = new ImageView(new Image("file:res/camScheme.png"));
+        schemeImage = new ImageView(new Image("file:res/cameras/camScheme.png"));
         schemeImage.setX(940);
         schemeImage.setY(400);
 
-        cameras = Camera.createCameras("res/cameras.txt", this);
+        cameras = Camera.createCameras("res/cameras/cameras.txt", this);
 
         camButtons = new ArrayList<>();
 
