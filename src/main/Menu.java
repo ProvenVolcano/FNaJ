@@ -2,11 +2,9 @@ package main;
 
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -39,6 +37,9 @@ public class Menu {
 
     private VBox buttonLayout;
 
+    private Image starImage;
+    private HBox stars;
+
     public Menu(Stage stage) {
         loadSave();
 
@@ -62,6 +63,13 @@ public class Menu {
         AnchorPane.setTopAnchor(title, 50.0);
         AnchorPane.setLeftAnchor(title, 120.0);
 
+        stars = new HBox();
+        stars.setSpacing(20);
+        AnchorPane.setTopAnchor(stars, 340.0);
+        AnchorPane.setLeftAnchor(stars, 120.0);
+        starImage = new Image("file:res/star.png");
+        updateStars();
+
         createButtons();
 
         buttonLayout = new VBox();
@@ -71,13 +79,22 @@ public class Menu {
 
         buttonUpdate();
 
-        root.getChildren().add(buttonLayout);
-        root.getChildren().add(title);
+        root.getChildren().addAll(buttonLayout, stars, title);
 
         stage.setScene(scene);
         stage.sizeToScene();
         stage.setResizable(false);
         stage.show();
+    }
+
+    private void updateStars() {
+        stars.getChildren().clear();
+        for(int i = 0; i < nightUnlocked - 5; i++) {
+            ImageView star = new ImageView(starImage);
+            star.setFitWidth(90);
+            star.setFitHeight(90);
+            stars.getChildren().add(star);
+        }
     }
 
     private void loadSave() {
@@ -206,6 +223,7 @@ public class Menu {
         continueText2.setText("(Night " + tempNight + ")");
         removeButtons();
         buttonUpdate();
+        updateStars();
     }
 
     private void increaseNight(int playedNight) {

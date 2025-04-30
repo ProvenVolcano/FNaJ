@@ -48,7 +48,7 @@ public class InfoProperties {
                 night.nextHour();
 
                 try{
-                    Thread.sleep(60);
+                    Thread.sleep(60000);
                 } catch (InterruptedException e) {
                     return;
                 }
