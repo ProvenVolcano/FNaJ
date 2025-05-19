@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 import nights.Night;
 import office.*;
 
+/**
+ * Controls the night
+ */
 public class Game {
 
     private Stage stage;
@@ -47,11 +50,19 @@ public class Game {
         });
     }
 
+    /**
+     * Changes the scene to the night scene and starts the night
+     */
     public void startGame() {
         stage.setScene(officeFront.getScene());
         info.startNight();
     }
 
+    /**
+     * Creates a button that returns to the scene of the front of the office
+     * @param stage - the stage
+     * @return - the button
+     */
     private Button backButton(Stage stage) {
         Button back = new Button();
         back.setPrefWidth(720);
@@ -63,11 +74,17 @@ public class Game {
         return back;
     }
 
+    /**
+     * Ends the night
+     */
     public void nightOver() {
         info.closeThreads();
         menu.endNight(nightNumber);
     }
 
+    /**
+     * Called when power runs out, blocks buttons and the monitor
+     */
     public void powerOut() {
 
         info.setUsage(0);

@@ -15,6 +15,9 @@ import loadScreens.StartNightScreen;
 
 import java.io.*;
 
+/**
+ * The main menu where the player selects a night
+ */
 public class Menu {
 
     private final int WIDTH;
@@ -94,6 +97,9 @@ public class Menu {
         stage.show();
     }
 
+    /**
+     * Updates the number of stars displayed on the menu, depending on how many nights the player completed
+     */
     private void updateStars() {
         stars.getChildren().clear();
         for(int i = 0; i < nightUnlocked - 5; i++) {
@@ -104,6 +110,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Loads the last reached night from a file
+     */
     private void loadSave() {
         try {
             BufferedReader br = new BufferedReader(new FileReader("res/save.txt"));
@@ -113,6 +122,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Saves the last night reached into a file
+     */
     private void saveProgress() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("res/save.txt"));
@@ -123,6 +135,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Initializes all the buttons in the menu
+     */
     private void createButtons() {
 
         Font font = Font.font("Courier New", FontWeight.BOLD, 40);
@@ -205,6 +220,10 @@ public class Menu {
         });
     }
 
+    /**
+     * Starts a night
+     * @param night - number of the night
+     */
     private void startGame(int night) {
         StartNightScreen startScreen = new StartNightScreen(WIDTH, HEIGHT, night);
         stage.setScene(startScreen.getScene());
@@ -219,6 +238,10 @@ public class Menu {
         game.startGame();
     }
 
+    /**
+     * Displays the end screen and increases reached night
+     * @param playedNight - number of night that the player played
+     */
     public void endNight(int playedNight) {
         Platform.runLater(() -> {
             EndNightScreen endScreen = new EndNightScreen(WIDTH, HEIGHT, stage, scene);
@@ -233,6 +256,10 @@ public class Menu {
         updateStars();
     }
 
+    /**
+     * Increases reached night
+     * @param playedNight- number of night that the player played
+     */
     private void increaseNight(int playedNight) {
         if(nightUnlocked < 6 && playedNight < 6) {
             nightUnlocked++;
@@ -241,11 +268,17 @@ public class Menu {
         }
     }
 
+    /**
+     * Removes all the buttons from the menu
+     */
     private void removeButtons() {
         root.getChildren().remove(continueText2);
         buttonLayout.getChildren().clear();
     }
 
+    /**
+     * Updates the displayed buttons depending on the reached night
+     */
     private void buttonUpdate() {
 
         buttonLayout.getChildren().add(newGameText);

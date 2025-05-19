@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+/**
+ * Class for a camera which can contain animatronics
+ */
 public class Camera {
 
     private final int ID;
@@ -103,6 +106,11 @@ public class Camera {
         return animatronics;
     }
 
+    /**
+     * Adds an animatronic to this camera if it is free
+     * @param animatronic - the animatronic
+     * @return - if the animatronic was added
+     */
     public boolean addAnimatronic(Animatronic animatronic) {
         if (isFree()) {
             animatronics.put(animatronic.getID(), animatronic);
@@ -112,6 +120,9 @@ public class Camera {
         return false;
     }
 
+    /**
+     * Updates the image of this camera
+     */
     private void updateCamera() {
         if(monitor == null) {
             return;
@@ -123,6 +134,10 @@ public class Camera {
         } else currentImage = images.get(newImageName());
     }
 
+    /**
+     * Returns the name of the camera image file based on what animatronic are in it
+     * @return - the name
+     */
     private String newImageName() {
         if(animatronics.isEmpty()){
             return "default.png";
@@ -142,11 +157,19 @@ public class Camera {
         return name;
     }
 
+    /**
+     * Removes an animatronic from the camera
+     * @param id - ID of the animatronic to remove
+     */
     public void removeAnimatronic(int id) {
         animatronics.remove(id);
         updateCamera();
     }
 
+    /**
+     * Checks if there is space in this camera for an animatronic
+     * @return - if the camera is free or not
+     */
     public boolean isFree() {
         return animatronics.size() < capacity;
     }
@@ -163,6 +186,12 @@ public class Camera {
         return office;
     }
 
+    /**
+     * Creates a HashMap of all the cameras from a file
+     * @param file - name of the file from which to create the cameras
+     * @param monitor - a monitor object
+     * @return - the HashMap of cameras
+     */
     public static HashMap<Integer, Camera> createCameras(String file, Monitor monitor) {
         HashMap<Integer, Camera> cameras = new HashMap<>();
 

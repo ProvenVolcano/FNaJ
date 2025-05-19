@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * The monitor, shows the cameras and controls the movement of the animatronics
+ */
 public class Monitor {
 
     private Scene scene;
@@ -23,7 +26,6 @@ public class Monitor {
     private ImageView schemeImage;
     private ImageView staticGif;
     private FadeTransition ft;
-    private InfoPane info;
 
     private ArrayList<Button> camButtons;
     private HashMap<Integer, Camera> cameras;
@@ -53,8 +55,6 @@ public class Monitor {
 
         camImage = cameras.get(1).getCurrentImage();
         root.getChildren().add(camImage);
-
-        this.info = info;
 
         ft = new FadeTransition(new Duration(770), staticGif);
         ft.setFromValue(1.0);
@@ -109,6 +109,10 @@ public class Monitor {
         addAnimatronics(animatronics);
     }
 
+    /**
+     * Adds animatronics into their cameras
+     * @param animatronics - the animatronics
+     */
     public void addAnimatronics(HashMap<Integer, Animatronic> animatronics) {
         for (Animatronic a : animatronics.values()) {
             a.setMonitor(this);
@@ -116,11 +120,18 @@ public class Monitor {
         }
     }
 
+    /**
+     * Plays the camera static gif fade animations
+     */
     public void playStaticFade() {
         ft.stop();
         ft.playFromStart();
     }
 
+    /**
+     * Moves an animatronic to a camera closer to the office
+     * @param animatronic - the animatronic to move
+     */
     public void moveCloser(Animatronic animatronic) {
         ArrayList<Integer> closerIDs = closerCameras(animatronic);
         if (closerIDs.isEmpty()) {
@@ -140,6 +151,11 @@ public class Monitor {
         animatronic.setCurrentPosition(newPosition);
     }
 
+    /**
+     * Returns an ArrayList of IDs of free cameras that are closer to the office that the animatronics position
+     * @param animatronic - an animatronic
+     * @return - the ArrayList of cameras
+     */
     public ArrayList<Integer> closerCameras(Animatronic animatronic) {
         ArrayList<Integer> camIDs = new ArrayList<>();
         for (int id : cameras.get(animatronic.getCurrentPosition()).getNeighbouringIDs()) {
@@ -150,6 +166,11 @@ public class Monitor {
         return camIDs;
     }
 
+    /**
+     * Moves an animatronic into one of gives cameras
+     * @param animatronic - the animatronic to move
+     * @param camIDs - array of IDs to choose from
+     */
     public void moveSomewhere(Animatronic animatronic, int[] camIDs) {
         int moveID = camIDs[rd.nextInt(camIDs.length)];
         cameras.get(animatronic.getCurrentPosition()).removeAnimatronic(animatronic.getID());
@@ -157,6 +178,9 @@ public class Monitor {
         animatronic.setCurrentPosition(moveID);
     }
 
+    /**
+     * Closes all animatronic movement threads
+     */
     public void closeThreads() {
         for (Camera camera : cameras.values()) {
             for (Animatronic animatronic : camera.getAnimatronics().values()) {
@@ -182,6 +206,11 @@ public class Monitor {
         }
     }
 
+    /**
+     * Checks if the player is currently looking at a gives camera
+     * @param id - ID of the camera to check
+     * @return - if the player is looking at the gives camera
+     */
     public boolean isCurrentCamera(int id) {
         return cameras.get(id).getCurrentImage() == camImage;
     }
