@@ -72,6 +72,7 @@ public abstract class Night {
             case 4 -> new NightFour();
             case 5 -> new NightFive();
             case 6 -> new NightSix();
+            case 7 -> new NightSeven();
             default -> new NightOne();
         };
     }

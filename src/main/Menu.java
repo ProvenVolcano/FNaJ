@@ -177,7 +177,7 @@ public class Menu {
             night6Text.setUnderline(false);
         });
 
-        customNightText = new Text("Custom Night");
+        customNightText = new Text("20/20/20");
         customNightText.setFont(font);
         customNightText.setFill(Color.WHITE);
         customNightText.setOnMouseClicked(e -> {
