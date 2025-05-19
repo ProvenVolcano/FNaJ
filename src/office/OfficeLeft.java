@@ -6,9 +6,10 @@ import info.InfoProperties;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Class for the left side of the office
+ */
 public class OfficeLeft extends OfficeTemplate {
-
-    private Button backButton;
 
     public OfficeLeft(int width, int height, Button backButton, InfoPane info, InfoProperties ip, Camera cam) {
         super(info, "res/office/officeLeft.png", width, height, cam);

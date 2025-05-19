@@ -2,6 +2,9 @@ package nights;
 
 import animatronics.Animatronic;
 
+/**
+ * Handles animatronic AI for night 4
+ */
 public class NightFour extends Night {
 
     public NightFour() {

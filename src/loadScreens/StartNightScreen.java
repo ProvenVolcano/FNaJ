@@ -11,6 +11,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+/**
+ * Class for the start screen that is displayed when a night is started
+ */
 public class StartNightScreen {
 
     private Scene scene;

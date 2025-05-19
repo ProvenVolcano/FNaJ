@@ -5,6 +5,9 @@ import javafx.beans.property.StringProperty;
 import main.Game;
 import nights.Night;
 
+/**
+ * Class for the info properties of Texts in InfoPane and power and hour threads
+ */
 public class InfoProperties {
 
     private double power;
@@ -62,21 +65,33 @@ public class InfoProperties {
 
     }
 
+    /**
+     * Starts the power and hour threads
+     */
     public void startNight() {
         powerThread.start();
         hourThread.start();
     }
 
+    /**
+     * Increases the usage and updates the usage text
+     */
     public void increaseUsage() {
         usage++;
         usageProperty.set("Usage: " + usage);
     }
 
+    /**
+     * Decreases the usage and updates the usage text
+     */
     public void decreaseUsage() {
         usage--;
         usageProperty.set("Usage: " + usage);
     }
 
+    /**
+     * Interrupts the power and hour threads
+     */
     public void closeThreads() {
         powerThread.interrupt();
         hourThread.interrupt();
@@ -89,14 +104,6 @@ public class InfoProperties {
     public void setUsage(int usage) {
         this.usage = usage;
         usageProperty.set("Usage: " + this.usage);
-    }
-
-    public int getUsage() {
-        return usage;
-    }
-
-    public int getHour() {
-        return hour;
     }
 
     public int getNight() {

@@ -9,6 +9,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * An abstract class that serves as a template for all the office classes
+ */
 public abstract class OfficeTemplate {
 
     protected AnchorPane root;

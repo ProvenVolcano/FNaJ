@@ -189,6 +189,10 @@ public class Monitor {
         }
     }
 
+    /**
+     * Plays the camera static gif on the camera and changes the camera image behind it
+     * @param id - ID of the camera to update
+     */
     public void updateCameraImage(int id) {
         try {
             Platform.runLater(() -> {

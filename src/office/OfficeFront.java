@@ -7,11 +7,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import cameras.Monitor;
 
+/**
+ * Class of the front of the office
+ */
 public class OfficeFront extends OfficeTemplate {
 
     private Button monitorButton;
     private Button left, right;
-    private Monitor monitor;
 
     public OfficeFront(Stage stage, int width, int height, OfficeLeft officeLeft, OfficeRight officeRight, Monitor monitor, InfoPane info, InfoProperties ip, Camera cam) {
         super(info, "res/office/office.png", width, height, cam);

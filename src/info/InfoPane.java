@@ -6,6 +6,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+/**
+ * Class for the UI that displays hours, night, power and power usage
+ */
 public class InfoPane {
 
     private AnchorPane root;

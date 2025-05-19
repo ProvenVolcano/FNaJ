@@ -11,6 +11,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Class for night complete end screen
+ */
 public class EndNightScreen {
 
     private Scene scene;
@@ -58,19 +61,6 @@ public class EndNightScreen {
         root.getChildren().addAll(vbox, bottomRec, topRec);
 
         moveTransition = new TranslateTransition(new Duration(5500), vbox);
-        setAfterFinish(stage, scene);
-        moveTransition.setByY(-92);
-    }
-
-    public Scene getScene() {
-        return scene;
-    }
-
-    public void play() {
-        moveTransition.play();
-    }
-
-    private void setAfterFinish(Stage stage, Scene scene) {
         moveTransition.setOnFinished(e -> {
             try {
                 Thread.sleep(2000);
@@ -79,5 +69,17 @@ public class EndNightScreen {
             }
             stage.setScene(scene);
         });
+        moveTransition.setByY(-92);
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
+
+    /**
+     * Plays the 6AM animation
+     */
+    public void play() {
+        moveTransition.play();
     }
 }
