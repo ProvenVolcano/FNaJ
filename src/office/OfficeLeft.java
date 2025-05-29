@@ -18,10 +18,11 @@ public class OfficeLeft extends OfficeTemplate {
         AnchorPane.setBottomAnchor(backButton, 0.0);
         root.getChildren().add(backButton);
 
-        doorButton.setPrefWidth(450);
-        doorButton.setPrefHeight(650);
-        doorButton.setLayoutX(450);
-        doorButton.setLayoutY(70);
+        doorButton.setPrefWidth(370);
+        doorButton.setPrefHeight(570);
+        doorButton.setLayoutX(580);
+        doorButton.setLayoutY(130);
+        doorButton.setOpacity(0.0);
 
         doorButton.setOnAction(e -> {
             if(ip.getPower() > 0) {
@@ -34,6 +35,9 @@ public class OfficeLeft extends OfficeTemplate {
         });
     }
 
+    /**
+     * Locks the left door so that it cannot be closed
+     */
     @Override
     public void powerOut() {
         neighbourCam.setClosed(false);

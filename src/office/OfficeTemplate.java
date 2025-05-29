@@ -5,7 +5,6 @@ import cameras.Camera;
 import info.InfoPane;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
@@ -28,17 +27,20 @@ public abstract class OfficeTemplate {
         this.info = info;
         this.neighbourCam = neighbourCam;
 
-        officeImage = new ImageView(new Image("file:" + imagePath));
+        officeImage = new ImageView("file:" + imagePath);
         root.getChildren().add(officeImage);
         root.getChildren().add(info.getRoot());
 
         doorButton = new Button();
-        doorButton.setOpacity(0.5);
+        doorButton.setOpacity(0.0);
         root.getChildren().add(doorButton);
 
         scene = new Scene(root, width, height);
     }
 
+    /**
+     * What is supposed to happen in the office when the power runs out
+     */
     public abstract void powerOut();
 
     public Scene getScene() {

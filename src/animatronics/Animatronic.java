@@ -4,6 +4,9 @@ import cameras.Monitor;
 
 import java.util.Random;
 
+/**
+ * Class for an animatronic and its movements
+ */
 public abstract class Animatronic implements Runnable {
 
     protected final int ID;
@@ -32,8 +35,15 @@ public abstract class Animatronic implements Runnable {
         rd = new Random();
     }
 
+    /**
+     * What is supposed to happen when the animatronic reaches the office doors
+     * @return - if the animatronic is at the door or not
+     */
     public abstract boolean atDoor();
 
+    /**
+     * Movement of the animatronics
+     */
     @Override
     public void run() {
         int moveTime = rd.nextInt(10) * 100 + (baseMoveTime - difficulty * 20);
@@ -92,6 +102,10 @@ public abstract class Animatronic implements Runnable {
         return startPosition;
     }
 
+    /**
+     * Increases the AI level of the animatronic, maximum level is 20
+     * @param howMuch - by how much the level should increase
+     */
     public void increaseDifficulty(int howMuch) {
         difficulty += howMuch;
         if(difficulty > 20) {
@@ -99,6 +113,11 @@ public abstract class Animatronic implements Runnable {
         }
     }
 
+    /**
+     * Checks if a given camera ID isn't of the cameras where the animatronic cannot move
+     * @param id - ID of the camera
+     * @return - if the camera is illegal to move to
+     */
     public boolean isIllegalCam(int id) {
         for (int illegalCam : illegalCams) {
             if (illegalCam == id) {
@@ -108,11 +127,20 @@ public abstract class Animatronic implements Runnable {
         return false;
     }
 
+    /**
+     * Activates the move thread of the animatronic
+     */
     public void activate() {
         System.out.println(name + " activated in " + currentPosition);
         moveThread.start();
     }
 
+    /**
+     * Factory method for the animatronics
+     * @param id - ID of the animatronic
+     * @param difficulty - AI level of the animatronic
+     * @return - the animatronic object
+     */
     public static Animatronic factory(int id, int difficulty) {
         return switch (id) {
             case 1 -> new Nanobot(difficulty);

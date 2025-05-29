@@ -16,14 +16,15 @@ public class OfficeFront extends OfficeTemplate {
     private Button left, right;
 
     public OfficeFront(Stage stage, int width, int height, OfficeLeft officeLeft, OfficeRight officeRight, Monitor monitor, InfoPane info, InfoProperties ip, Camera cam) {
-        super(info, "res/office/office.png", width, height, cam);
+        super(info, "res/office/officeFront.png", width, height, cam);
 
         monitorButton = new Button("Monitor");
-        monitorButton.setPrefWidth(450);
-        monitorButton.setPrefHeight(350);
+        monitorButton.setPrefWidth(460);
+        monitorButton.setPrefHeight(310);
         monitorButton.setOpacity(0);
-        AnchorPane.setRightAnchor(monitorButton, 140.0);
-        AnchorPane.setBottomAnchor(monitorButton, 150.0);
+        monitorButton.setRotate(2);
+        AnchorPane.setRightAnchor(monitorButton, 170.0);
+        AnchorPane.setBottomAnchor(monitorButton, 110.0);
 
         monitorButton.setOnAction(e -> {
             if(ip.getPower() > 0) {
@@ -55,10 +56,11 @@ public class OfficeFront extends OfficeTemplate {
             stage.setScene(officeRight.getScene());
         });
 
-        doorButton.setPrefWidth(250);
-        doorButton.setPrefHeight(210);
-        doorButton.setLayoutX(470);
-        doorButton.setLayoutY(70);
+        doorButton.setPrefWidth(190);
+        doorButton.setPrefHeight(110);
+        doorButton.setLayoutX(573);
+        doorButton.setLayoutY(225);
+        doorButton.setOpacity(0);
 
         doorButton.setOnAction(e -> {
             if(ip.getPower() > 0) {
@@ -75,6 +77,9 @@ public class OfficeFront extends OfficeTemplate {
         root.getChildren().add(right);
     }
 
+    /**
+     * Locks the front vent so that it cannot be closed
+     */
     @Override
     public void powerOut() {
         neighbourCam.setClosed(false);
