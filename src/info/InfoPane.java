@@ -14,6 +14,12 @@ public class InfoPane {
     private AnchorPane root;
     private Text powerText, usageText, nightText, hourText;
 
+    /**
+     * Binds the texts to their respective StringProperties in InfoProperties
+     * @param ip - InfoProperties object
+     * @param width - width of the scene
+     * @param height - height of the scene
+     */
     public InfoPane(InfoProperties ip, int width, int height) {
 
         powerText = new Text("Power: 100%");

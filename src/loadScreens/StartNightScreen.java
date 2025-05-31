@@ -47,6 +47,11 @@ public class StartNightScreen {
         return scene;
     }
 
+    /**
+     * Returns the correct suffix for an ordinal number
+     * @param number - a number
+     * @return - a suffix to that number
+     */
     private String numberEnding(int number) {
         return switch (number) {
             case 1 -> "st";

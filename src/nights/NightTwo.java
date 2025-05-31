@@ -18,19 +18,18 @@ public class NightTwo extends Night {
 
     @Override
     protected void am1() {
-        animatronics.get(1).increaseDifficulty(1);
         animatronics.get(2).increaseDifficulty(1);
-        animatronics.get(3).increaseDifficulty(1);
     }
 
     @Override
     protected void am2() {
-
+        animatronics.get(1).increaseDifficulty(1);
+        animatronics.get(3).increaseDifficulty(1);
     }
 
     @Override
     protected void am3() {
-        animatronics.get(2).increaseDifficulty(1);
+
     }
 
     @Override

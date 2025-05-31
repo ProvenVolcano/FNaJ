@@ -146,6 +146,7 @@ public class Menu {
         newGameText.setFont(font);
         newGameText.setFill(Color.WHITE);
         newGameText.setOnMouseClicked(e -> {
+            nightUnlocked = 1;
             startGame(1);
         });
         newGameText.setOnMouseEntered(e -> {
@@ -257,7 +258,7 @@ public class Menu {
     }
 
     /**
-     * Returns the player to the menu
+     * Returns the player to the menu5
      */
     public void endNightJumpScare() {
         Platform.runLater(() -> {

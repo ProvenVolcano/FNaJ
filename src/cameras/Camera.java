@@ -186,6 +186,10 @@ public class Camera {
         return office;
     }
 
+    public HashMap<String, ImageView> getImages() {
+        return images;
+    }
+
     /**
      * Creates a HashMap of all the cameras from a file
      * @param file - name of the file from which to create the cameras

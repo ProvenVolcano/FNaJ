@@ -18,8 +18,8 @@ public class NightOne extends Night {
 
     @Override
     protected void am1() {
-        animatronics.get(1).increaseDifficulty(2);
-        animatronics.get(3).increaseDifficulty(2);
+        animatronics.get(1).increaseDifficulty(1);
+        animatronics.get(3).increaseDifficulty(1);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class NightOne extends Night {
     @Override
     protected void am3() {
         animatronics.get(1).increaseDifficulty(1);
-        animatronics.get(3).increaseDifficulty(2);
+        animatronics.get(3).increaseDifficulty(1);
     }
 
     @Override

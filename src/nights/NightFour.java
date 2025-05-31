@@ -11,9 +11,9 @@ public class NightFour extends Night {
 
     @Override
     protected void animatronicStartDiffInit() {
-        nanobotStart = 8;
-        tasemniceStart = 8;
-        jecnakStart = 8;
+        nanobotStart = 5;
+        tasemniceStart = 6;
+        jecnakStart = 5;
     }
 
     @Override
@@ -35,8 +35,7 @@ public class NightFour extends Night {
 
     @Override
     protected void am4() {
-        animatronics.get(1).increaseDifficulty(1);
-        animatronics.get(2).increaseDifficulty(1);
+        animatronics.get(1).increaseDifficulty(2);
         animatronics.get(3).increaseDifficulty(2);
     }
 

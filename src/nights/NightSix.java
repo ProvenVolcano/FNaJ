@@ -11,9 +11,9 @@ public class NightSix extends Night {
 
     @Override
     protected void animatronicStartDiffInit() {
-        nanobotStart = 16;
-        tasemniceStart = 14;
-        jecnakStart = 16;
+        nanobotStart = 13;
+        tasemniceStart = 13;
+        jecnakStart = 13;
     }
 
     @Override

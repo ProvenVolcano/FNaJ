@@ -158,7 +158,7 @@ public class Monitor {
     }
 
     /**
-     * Returns an ArrayList of IDs of free cameras that are closer to the office that the animatronics position
+     * Returns an ArrayList of IDs of free cameras that are closer to the office than the animatronics current position
      * @param animatronic - an animatronic
      * @return - the ArrayList of cameras
      */
