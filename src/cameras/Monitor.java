@@ -40,8 +40,9 @@ public class Monitor {
         scene = new Scene(root, width, height);
         rd = new Random();
 
-        backButton.setPrefWidth(150);
+        backButton.setPrefWidth(250);
         backButton.setPrefHeight(50);
+        backButton.setOpacity(0);
         backButton.setLayoutX((double) width / 2 - backButton.getPrefWidth() / 2);
         backButton.setLayoutY(height - backButton.getPrefHeight() - 15);
 
