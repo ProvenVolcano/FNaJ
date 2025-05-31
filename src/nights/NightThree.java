@@ -1,7 +1,5 @@
 package nights;
 
-import animatronics.Animatronic;
-
 /**
  * Handles animatronic AI for night 3
  */
@@ -12,10 +10,10 @@ public class NightThree extends Night {
     }
 
     @Override
-    protected void animatronicInit() {
-        animatronics.put(1, Animatronic.factory(1, 4));
-        animatronics.put(2, Animatronic.factory(2, 3));
-        animatronics.put(3, Animatronic.factory(3, 4));
+    protected void animatronicStartDiffInit() {
+        nanobotStart = 3;
+        tasemniceStart = 3;
+        jecnakStart = 4;
     }
 
     @Override

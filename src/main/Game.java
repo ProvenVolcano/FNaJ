@@ -44,6 +44,8 @@ public class Game {
         officeRight = new OfficeRight(width, height, backButton(stage), new InfoPane(info, width, height), monitor.getCameras().get(11));
         officeFront = new OfficeFront(stage, width, height, officeLeft, officeRight, monitor, new InfoPane(info, width, height), info, monitor.getCameras().get(10));
 
+        night.setOffices(officeLeft, officeFront, officeRight);
+
         stage.setOnCloseRequest(e -> {
             monitor.closeThreads();
             info.closeThreads();

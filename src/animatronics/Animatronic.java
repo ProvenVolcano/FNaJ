@@ -1,6 +1,9 @@
 package animatronics;
 
 import cameras.Monitor;
+import office.OfficeFront;
+import office.OfficeLeft;
+import office.OfficeRight;
 
 import java.util.Random;
 
@@ -20,6 +23,9 @@ public abstract class Animatronic implements Runnable {
     protected int[] returnCams;
     protected int baseMoveTime;
     protected String name;
+    protected OfficeLeft ol;
+    protected OfficeFront of;
+    protected OfficeRight or;
 
     public Animatronic(int ID, int startPosition, int difficulty, int[] illegalCams, int[] returnCams, int baseMoveTime, String name) {
         this.ID = ID;
@@ -60,6 +66,7 @@ public abstract class Animatronic implements Runnable {
                 monitor.moveCloser(this);
                 System.out.println(name + " moved to: " + currentPosition);
 
+                // If the camera the animatronic just moved to is an invisible one bordering the office
                 if (monitor.getCameras().get(currentPosition).isOffice()) {
 
                     if (atDoor()) {
@@ -135,18 +142,9 @@ public abstract class Animatronic implements Runnable {
         moveThread.start();
     }
 
-    /**
-     * Factory method for the animatronics
-     * @param id - ID of the animatronic
-     * @param difficulty - AI level of the animatronic
-     * @return - the animatronic object
-     */
-    public static Animatronic factory(int id, int difficulty) {
-        return switch (id) {
-            case 1 -> new Nanobot(difficulty);
-            case 2 -> new Tasemnice(difficulty);
-            case 3 -> new Jecnak(difficulty);
-            default -> null;
-        };
+    public void setOffices(OfficeLeft ol, OfficeFront of, OfficeRight or) {
+        this.ol = ol;
+        this.of = of;
+        this.or = or;
     }
 }

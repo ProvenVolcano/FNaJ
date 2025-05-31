@@ -230,7 +230,7 @@ public class Menu {
         Game game = new Game(stage, WIDTH, HEIGHT, night, this);
 
         try {
-            Thread.sleep(2500);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

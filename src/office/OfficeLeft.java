@@ -7,8 +7,6 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
@@ -16,13 +14,13 @@ import javafx.util.Duration;
  */
 public class OfficeLeft extends OfficeTemplate {
 
-    private Rectangle bgBlack;
     private ImageView door;
+    private ImageView eyes;
     private TranslateTransition closeMove;
     private TranslateTransition openMove;
 
     public OfficeLeft(int width, int height, Button backButton, InfoPane info, InfoProperties ip, Camera cam) {
-        super(info, "res/office/officeLeft.png", width, height, cam);
+        super(info, "res/office/left/officeLeft.png", width, height, cam);
 
         AnchorPane.setLeftAnchor(backButton, 360.0);
         AnchorPane.setBottomAnchor(backButton, 0.0);
@@ -34,10 +32,7 @@ public class OfficeLeft extends OfficeTemplate {
         doorButton.setLayoutY(130);
         doorButton.setOpacity(0.0);
 
-        bgBlack = new Rectangle(1200, 900);
-        bgBlack.setFill(Color.BLACK);
-
-        door = new ImageView("file:res/office/officeLeftDoor.png");
+        door = new ImageView("file:res/office/left/officeLeftDoor.png");
         AnchorPane.setLeftAnchor(door, 600.0);
         AnchorPane.setTopAnchor(door, 155.0 - 737);
 
@@ -69,9 +64,23 @@ public class OfficeLeft extends OfficeTemplate {
             }
         });
 
-        root.getChildren().addAll(bgBlack, door);
+        eyes = new ImageView("file:res/office/left/leftEyes.png");
+        AnchorPane.setLeftAnchor(eyes, 600.0);
+        AnchorPane.setTopAnchor(eyes, 155.0);
+        eyes.setVisible(false);
+
+        root.getChildren().addAll(door, eyes);
         door.toBack();
+        eyes.toBack();
         bgBlack.toBack();
+    }
+
+    public void appearEyes() {
+        eyes.setVisible(true);
+    }
+
+    public void hideEyes() {
+        eyes.setVisible(false);
     }
 
     /**

@@ -35,7 +35,7 @@ public class InfoProperties {
 
             while (power > 0) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(700);
                 } catch (InterruptedException e) {
                     return;
                 }

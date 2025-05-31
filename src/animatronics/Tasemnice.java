@@ -12,7 +12,8 @@ public class Tasemnice extends Animatronic {
     public boolean atDoor() {
 
         phase = 10;
-        while (phase > 0) {
+
+        do {
 
             try {
                 Thread.sleep(500);
@@ -27,7 +28,9 @@ public class Tasemnice extends Animatronic {
             if (phase > 30) {
                 monitor.moveCloser(this);
             }
-        }
+            or.updateStageImage(phase);
+
+        } while (phase > 0);
 
         monitor.moveSomewhere(this, returnCams);
         return false;

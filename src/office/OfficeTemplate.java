@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * An abstract class that serves as a template for all the office classes
@@ -20,6 +22,7 @@ public abstract class OfficeTemplate {
     protected Animatronic animatronic;
     protected Button doorButton;
     protected Camera neighbourCam;
+    protected Rectangle bgBlack;
 
     protected ImageView jecnakJumpscareImage;
     protected ImageView tasemniceJumpscareImage;
@@ -43,8 +46,10 @@ public abstract class OfficeTemplate {
         nanobotJumpscareImage = new ImageView("file:res/images/nanobotJumpscare.png");
         nanobotJumpscareImage.setVisible(false);
 
-        root.getChildren().addAll(officeImage, info.getRoot(), doorButton, jecnakJumpscareImage, tasemniceJumpscareImage, nanobotJumpscareImage);
+        bgBlack = new Rectangle(1440, 810);
+        bgBlack.setFill(Color.BLACK);
 
+        root.getChildren().addAll(bgBlack, officeImage, info.getRoot(), doorButton, jecnakJumpscareImage, tasemniceJumpscareImage, nanobotJumpscareImage);
         scene = new Scene(root, width, height);
     }
 

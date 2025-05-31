@@ -6,8 +6,6 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import cameras.Monitor;
 import javafx.util.Duration;
@@ -19,13 +17,13 @@ public class OfficeFront extends OfficeTemplate {
 
     private Button monitorButton;
     private Button left, right;
-    private Rectangle bgBlack;
     private ImageView door;
+    private ImageView eyes;
     private TranslateTransition closeMove;
     private TranslateTransition openMove;
 
     public OfficeFront(Stage stage, int width, int height, OfficeLeft officeLeft, OfficeRight officeRight, Monitor monitor, InfoPane info, InfoProperties ip, Camera cam) {
-        super(info, "res/office/officeFront.png", width, height, cam);
+        super(info, "res/office/front/officeFront.png", width, height, cam);
 
         monitorButton = new Button("Monitor");
         monitorButton.setPrefWidth(460);
@@ -65,10 +63,7 @@ public class OfficeFront extends OfficeTemplate {
             stage.setScene(officeRight.getScene());
         });
 
-        bgBlack = new Rectangle(900, 400);
-        bgBlack.setFill(Color.BLACK);
-
-        door = new ImageView("file:res/office/officeFrontDoor.png");
+        door = new ImageView("file:res/office/front/officeFrontDoor.png");
         AnchorPane.setLeftAnchor(door, 585.0);
         AnchorPane.setTopAnchor(door, 235.0 - 92);
 
@@ -106,9 +101,23 @@ public class OfficeFront extends OfficeTemplate {
             }
         });
 
-        root.getChildren().addAll(bgBlack, monitorButton, left, right, door);
+        eyes = new ImageView("file:res/office/front/frontEyes.png");
+        AnchorPane.setLeftAnchor(eyes, 585.0);
+        AnchorPane.setTopAnchor(eyes, 235.0);
+        eyes.setVisible(false);
+
+        root.getChildren().addAll(monitorButton, left, right, door, eyes);
         door.toBack();
+        eyes.toBack();
         bgBlack.toBack();
+    }
+
+    public void appearEyes() {
+        eyes.setVisible(true);
+    }
+
+    public void hideEyes() {
+        eyes.setVisible(false);
     }
 
     /**

@@ -1,6 +1,12 @@
 package nights;
 
 import animatronics.Animatronic;
+import animatronics.Jecnak;
+import animatronics.Nanobot;
+import animatronics.Tasemnice;
+import office.OfficeFront;
+import office.OfficeLeft;
+import office.OfficeRight;
 
 import java.util.HashMap;
 
@@ -12,10 +18,18 @@ public abstract class Night {
     protected HashMap<Integer, Animatronic> animatronics;
     protected int hour;
 
+    protected int jecnakStart;
+    protected int tasemniceStart;
+    protected int nanobotStart;
+
     public Night() {
         animatronics = new HashMap<>();
         hour = 0;
-        animatronicInit();
+        animatronicStartDiffInit();
+
+        animatronics.put(1, new Nanobot(nanobotStart));
+        animatronics.put(2, new Tasemnice(tasemniceStart));
+        animatronics.put(3, new Jecnak(jecnakStart));
     }
 
     public HashMap<Integer, Animatronic> getAnimatronics() {
@@ -62,10 +76,15 @@ public abstract class Night {
         hour++;
     }
 
+    public void setOffices(OfficeLeft ol, OfficeFront of, OfficeRight or) {
+        animatronics.get(3).setOffices(ol, of, or);
+        animatronics.get(2).setOffices(ol, of, or);
+    }
+
     /**
      * Initializes the animatronic, contains their start AI level
      */
-    protected abstract void animatronicInit();
+    protected abstract void animatronicStartDiffInit();
 
     /**
      * What is supposed to happen when 1 AM is reached
