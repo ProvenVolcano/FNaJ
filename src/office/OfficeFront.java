@@ -120,11 +120,20 @@ public class OfficeFront extends OfficeTemplate {
         eyes.setVisible(false);
     }
 
+    @Override
+    public void jumpscare(int ID) {
+        monitorButton.setDisable(true);
+        left.setDisable(true);
+        right.setDisable(true);
+        super.jumpscare(ID);
+    }
+
     /**
      * Locks the front vent so that it cannot be closed
      */
     @Override
     public void powerOut() {
+        openMove.play();
         neighbourCam.setClosed(false);
     }
 }

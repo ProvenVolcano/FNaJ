@@ -76,13 +76,19 @@ public abstract class Night {
         hour++;
     }
 
+    /**
+     * Gives office objects to Jecnak and Tasemnice animatronics
+     * @param ol - OfficeLeft object
+     * @param of - OfficeFront object
+     * @param or - OfficeRight object
+     */
     public void setOffices(OfficeLeft ol, OfficeFront of, OfficeRight or) {
         animatronics.get(3).setOffices(ol, of, or);
         animatronics.get(2).setOffices(ol, of, or);
     }
 
     /**
-     * Initializes the animatronic, contains their start AI level
+     * Sets animatronics starting AI levels
      */
     protected abstract void animatronicStartDiffInit();
 

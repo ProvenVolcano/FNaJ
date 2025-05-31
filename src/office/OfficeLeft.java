@@ -18,6 +18,7 @@ public class OfficeLeft extends OfficeTemplate {
     private ImageView eyes;
     private TranslateTransition closeMove;
     private TranslateTransition openMove;
+    private Button backButton;
 
     public OfficeLeft(int width, int height, Button backButton, InfoPane info, InfoProperties ip, Camera cam) {
         super(info, "res/office/left/officeLeft.png", width, height, cam);
@@ -25,6 +26,7 @@ public class OfficeLeft extends OfficeTemplate {
         AnchorPane.setLeftAnchor(backButton, 360.0);
         AnchorPane.setBottomAnchor(backButton, 0.0);
         root.getChildren().add(backButton);
+        this.backButton = backButton;
 
         doorButton.setPrefWidth(370);
         doorButton.setPrefHeight(570);
@@ -83,11 +85,18 @@ public class OfficeLeft extends OfficeTemplate {
         eyes.setVisible(false);
     }
 
+    @Override
+    public void jumpscare(int ID) {
+        backButton.setDisable(true);
+        super.jumpscare(ID);
+    }
+
     /**
      * Locks the left door so that it cannot be closed
      */
     @Override
     public void powerOut() {
+        openMove.play();
         neighbourCam.setClosed(false);
     }
 }

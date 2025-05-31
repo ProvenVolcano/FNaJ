@@ -256,6 +256,9 @@ public class Menu {
         updateStars();
     }
 
+    /**
+     * Returns the player to the menu
+     */
     public void endNightJumpScare() {
         Platform.runLater(() -> {
             stage.setScene(scene);

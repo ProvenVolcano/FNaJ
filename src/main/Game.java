@@ -94,6 +94,13 @@ public class Game {
         officeLeft.powerOut();
         officeRight.powerOut();
 
+        closeMonitor();
+    }
+
+    /**
+     * Changes the scene to the front of the office if the monitor is active
+     */
+    private void closeMonitor() {
         if (stage.getScene() == monitor.getScene()) {
 
             try {
@@ -103,16 +110,21 @@ public class Game {
             } catch (Exception _) {
             }
         }
-
     }
 
+    /**
+     * Starts the jumpscare
+     * @param animID - ID of the animatronic who jumpscares
+     */
     public void jumpscare(int animID) {
+        closeMonitor();
+
         officeFront.jumpscare(animID);
         officeLeft.jumpscare(animID);
         officeRight.jumpscare(animID);
 
         try {
-            Thread.sleep(2500);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

@@ -91,7 +91,7 @@ public class InfoProperties {
     }
 
     /**
-     * Interrupts the power and hour threads
+     * Interrupts all threads
      */
     public void closeThreads() {
         powerThread.interrupt();

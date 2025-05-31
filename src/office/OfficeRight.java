@@ -15,6 +15,7 @@ public class OfficeRight extends OfficeTemplate {
 
     private ImageView closedImage;
     private ArrayList<ImageView> tasemniceStages;
+    private Button backButton;
 
     public OfficeRight(int width, int height, Button backButton, InfoPane info, Camera cam) {
         super(info, "res/office/right/officeRightOpen.png", width, height, cam);
@@ -23,6 +24,7 @@ public class OfficeRight extends OfficeTemplate {
         AnchorPane.setLeftAnchor(backButton, 360.0);
         AnchorPane.setBottomAnchor(backButton, 0.0);
         root.getChildren().add(backButton);
+        this.backButton = backButton;
 
         doorButton.setPrefWidth(355);
         doorButton.setPrefHeight(525);
@@ -69,6 +71,10 @@ public class OfficeRight extends OfficeTemplate {
         bgBlack.toBack();
     }
 
+    /**
+     * Updates the eyes image visible in the window based on the phase of Tasemnice
+     * @param phase - the phase of Tasemnice
+     */
     public void updateStageImage(int phase) {
         if(phase < 1) {
             for(ImageView image : tasemniceStages) {
@@ -96,6 +102,12 @@ public class OfficeRight extends OfficeTemplate {
             tasemniceStages.get(1).setVisible(false);
             tasemniceStages.get(2).setVisible(true);
         }
+    }
+
+    @Override
+    public void jumpscare(int ID) {
+        backButton.setDisable(true);
+        super.jumpscare(ID);
     }
 
     @Override

@@ -58,7 +58,12 @@ public abstract class OfficeTemplate {
      */
     public abstract void powerOut();
 
+    /**
+     * Makes the appropriate animatronic jumpscare image visible in the office
+     * @param ID - ID of the animatronic whose jumpscare to display
+     */
     public void jumpscare(int ID) {
+        doorButton.setDisable(true);
         switch(ID) {
             case 1:
                 nanobotJumpscareImage.setVisible(true);
