@@ -21,6 +21,10 @@ public abstract class OfficeTemplate {
     protected Button doorButton;
     protected Camera neighbourCam;
 
+    protected ImageView jecnakJumpscareImage;
+    protected ImageView tasemniceJumpscareImage;
+    protected ImageView nanobotJumpscareImage;
+
     public OfficeTemplate(InfoPane info, String imagePath, int width, int height, Camera neighbourCam) {
         root = new AnchorPane();
 
@@ -28,12 +32,18 @@ public abstract class OfficeTemplate {
         this.neighbourCam = neighbourCam;
 
         officeImage = new ImageView("file:" + imagePath);
-        root.getChildren().add(officeImage);
-        root.getChildren().add(info.getRoot());
 
         doorButton = new Button();
         doorButton.setOpacity(0.0);
-        root.getChildren().add(doorButton);
+
+        jecnakJumpscareImage = new ImageView("file:res/images/jecnakJumpscare.png");
+        jecnakJumpscareImage.setVisible(false);
+        tasemniceJumpscareImage = new ImageView("file:res/images/tasemniceJumpscare.png");
+        tasemniceJumpscareImage.setVisible(false);
+        nanobotJumpscareImage = new ImageView("file:res/images/nanobotJumpscare.png");
+        nanobotJumpscareImage.setVisible(false);
+
+        root.getChildren().addAll(officeImage, info.getRoot(), doorButton, jecnakJumpscareImage, tasemniceJumpscareImage, nanobotJumpscareImage);
 
         scene = new Scene(root, width, height);
     }
@@ -42,6 +52,20 @@ public abstract class OfficeTemplate {
      * What is supposed to happen in the office when the power runs out
      */
     public abstract void powerOut();
+
+    public void jumpscare(int ID) {
+        switch(ID) {
+            case 1:
+                nanobotJumpscareImage.setVisible(true);
+                break;
+            case 2:
+                tasemniceJumpscareImage.setVisible(true);
+                break;
+            case 3:
+                jecnakJumpscareImage.setVisible(true);
+
+        }
+    }
 
     public Scene getScene() {
         return scene;

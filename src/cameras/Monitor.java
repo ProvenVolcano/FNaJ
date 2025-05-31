@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import info.InfoPane;
 import javafx.util.Duration;
+import main.Game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.Random;
  */
 public class Monitor {
 
+    private Game game;
     private Scene scene;
     private Pane root;
     private ImageView camImage;
@@ -32,7 +34,8 @@ public class Monitor {
 
     private Random rd;
 
-    public Monitor(int width, int height, Button backButton, InfoPane info, HashMap<Integer, Animatronic> animatronics) {
+    public Monitor(Game game, int width, int height, Button backButton, InfoPane info, HashMap<Integer, Animatronic> animatronics) {
+        this.game = game;
         root = new Pane();
         scene = new Scene(root, width, height);
         rd = new Random();
@@ -141,7 +144,10 @@ public class Monitor {
 
         if (newPosition == 0) {
             if (!cameras.get(animatronic.getCurrentPosition()).isClosed()) {
+
                 System.out.println("JUMPSCARE by " + animatronic.getName());
+                game.jumpscare(animatronic.getID());
+
             } else System.out.println("Door blocked");
             return;
         }

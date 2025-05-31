@@ -38,7 +38,7 @@ public class Game {
             stage.setScene(officeFront.getScene());
         });
 
-        monitor = new Monitor(width, height, backButton, new InfoPane(info, width, height), night.getAnimatronics());
+        monitor = new Monitor(this, width, height, backButton, new InfoPane(info, width, height), night.getAnimatronics());
 
         officeLeft = new OfficeLeft(width, height, backButton(stage), new InfoPane(info, width, height), info, monitor.getCameras().get(9));
         officeRight = new OfficeRight(width, height, backButton(stage), new InfoPane(info, width, height), monitor.getCameras().get(11));
@@ -79,7 +79,7 @@ public class Game {
      */
     public void nightOver() {
         info.closeThreads();
-        menu.endNight(nightNumber);
+        menu.endNightSuccess(nightNumber);
     }
 
     /**
@@ -102,5 +102,20 @@ public class Game {
             }
         }
 
+    }
+
+    public void jumpscare(int animID) {
+        officeFront.jumpscare(animID);
+        officeLeft.jumpscare(animID);
+        officeRight.jumpscare(animID);
+
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        info.closeThreads();
+        menu.endNightJumpScare();
     }
 }

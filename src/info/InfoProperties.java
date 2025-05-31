@@ -12,15 +12,17 @@ public class InfoProperties {
 
     private double power;
     private int usage;
-    private int night;
+    private int nightNumber;
     private int hour;
+    private Night night;
     private Thread powerThread;
     private Thread hourThread;
     private StringProperty powerProperty, usageProperty, hourProperty;
 
     public InfoProperties(int nightNumber, Game game, Night night) {
 
-        this.night = nightNumber;
+        this.nightNumber = nightNumber;
+        this.night = night;
         usage = 1;
         power = 100;
         hour = 0;
@@ -59,7 +61,6 @@ public class InfoProperties {
                 hourProperty.set(hour + " AM");
             }
             game.nightOver();
-            night.deactivateAnimatronics();
 
         });
 
@@ -94,6 +95,7 @@ public class InfoProperties {
      */
     public void closeThreads() {
         powerThread.interrupt();
+        night.deactivateAnimatronics();
         hourThread.interrupt();
     }
 
@@ -106,8 +108,8 @@ public class InfoProperties {
         usageProperty.set("Usage: " + this.usage);
     }
 
-    public int getNight() {
-        return night;
+    public int getNightNumber() {
+        return nightNumber;
     }
 
     public StringProperty getPowerProperty() {

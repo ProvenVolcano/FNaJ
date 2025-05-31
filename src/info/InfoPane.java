@@ -32,7 +32,7 @@ public class InfoPane {
         AnchorPane.setBottomAnchor(usageText, 40.0);
         usageText.textProperty().bind(ip.getUsageProperty());
 
-        nightText = new Text("Night " + ip.getNight());
+        nightText = new Text("Night " + ip.getNightNumber());
         nightText.setFill(Color.WHITE);
         nightText.setFont(Font.font("Courier New", FontWeight.BOLD, 25));
         nightText.setStyle("-fx-stroke: black;-fx-stroke-width: 0.5;");

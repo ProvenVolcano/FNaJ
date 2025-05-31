@@ -242,7 +242,7 @@ public class Menu {
      * Displays the end screen and increases reached night
      * @param playedNight - number of night that the player played
      */
-    public void endNight(int playedNight) {
+    public void endNightSuccess(int playedNight) {
         Platform.runLater(() -> {
             EndNightScreen endScreen = new EndNightScreen(WIDTH, HEIGHT, stage, scene);
             stage.setScene(endScreen.getScene());
@@ -254,6 +254,12 @@ public class Menu {
         removeButtons();
         buttonUpdate();
         updateStars();
+    }
+
+    public void endNightJumpScare() {
+        Platform.runLater(() -> {
+            stage.setScene(scene);
+        });
     }
 
     /**
