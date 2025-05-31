@@ -1,9 +1,9 @@
 package animatronics;
 
-public class Kota extends Animatronic {
+public class Jecnak extends Animatronic {
 
-    public Kota(int difficulty) {
-        super(3, 1, difficulty, new int[]{11}, new int[]{1, 2, 3, 4}, 6000, "Kota");
+    public Jecnak(int difficulty) {
+        super(3, 1, difficulty, new int[]{11}, new int[]{1, 2, 3, 4}, 6000, "Jecnak");
     }
 
     @Override

@@ -3,7 +3,7 @@ package animatronics;
 public class Nanobot extends Animatronic {
 
     public Nanobot(int difficulty) {
-        super(1, 1, difficulty, new int[]{9, 11}, new int[]{1, 2, 3}, 5000, "Nanobot");
+        super(1, 1, difficulty, new int[]{9, 11}, new int[]{1, 2}, 5000, "Nanobot");
     }
 
     @Override

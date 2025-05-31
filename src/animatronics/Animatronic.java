@@ -145,7 +145,7 @@ public abstract class Animatronic implements Runnable {
         return switch (id) {
             case 1 -> new Nanobot(difficulty);
             case 2 -> new Tasemnice(difficulty);
-            case 3 -> new Kota(difficulty);
+            case 3 -> new Jecnak(difficulty);
             default -> null;
         };
     }

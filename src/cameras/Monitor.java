@@ -56,9 +56,9 @@ public class Monitor {
         camImage = cameras.get(1).getCurrentImage();
         root.getChildren().add(camImage);
 
-        ft = new FadeTransition(new Duration(770), staticGif);
+        ft = new FadeTransition(new Duration(700), staticGif);
         ft.setFromValue(1.0);
-        ft.setToValue(0.2);
+        ft.setToValue(0.06);
 
         //creating cameras
         for (Camera camera : cameras.values()) {

@@ -47,8 +47,8 @@ public class Menu {
     public Menu(Stage stage) {
         loadSave();
 
-        WIDTH = 16 * 90;
-        HEIGHT = 9 * 90;
+        WIDTH = 1440; // 16 * 90
+        HEIGHT = 810; // 9 * 90
 
         this.stage = stage;
 
