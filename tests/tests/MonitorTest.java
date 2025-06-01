@@ -5,6 +5,7 @@ import animatronics.Animatronic;
 import animatronics.Jecnak;
 import animatronics.Nanobot;
 import animatronics.Tasemnice;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +21,8 @@ class MonitorTest {
      */
     @Test
     void closerCameras() {
+        Platform.startup(() -> {});
+
         HashMap<Integer, Animatronic> animatronics = new HashMap<>();
         animatronics.put(1, new Nanobot(20));
         animatronics.put(2, new Tasemnice(20));

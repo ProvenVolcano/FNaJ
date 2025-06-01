@@ -2,6 +2,7 @@ package tests;
 
 import cameras.*;
 import animatronics.*;
+import javafx.application.Platform;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,6 +14,8 @@ class CameraTest {
      */
     @Test
     void addAnimatronic() {
+        Platform.startup(() -> {});
+
         Camera c = new Camera(new String[]{"7", "10.5.6.8", "1", "1023", "671", "2"}, null);
         assertTrue(c.addAnimatronic(new Nanobot(1)));
         assertTrue(c.addAnimatronic(new Jecnak(1)));
@@ -24,6 +27,8 @@ class CameraTest {
      */
     @Test
     void imageNameChange() {
+        Platform.startup(() -> {});
+
         Camera c = new Camera(new String[]{"7", "10.5.6.8", "1", "1023", "671", "2"}, null);
         assertEquals(c.getImages().get("default.png"), c.getCurrentImage());
 

@@ -1,6 +1,7 @@
 package tests;
 
 import info.InfoProperties;
+import javafx.application.Platform;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,6 +13,8 @@ class InfoPropertiesTest {
      */
     @Test
     void usage() {
+        Platform.startup(() -> {});
+
         InfoProperties ip = new InfoProperties(5, null, null);
 
         double startPower1 = ip.getPower();
@@ -46,6 +49,8 @@ class InfoPropertiesTest {
      */
     @Test
     void nightEndTest() {
+        Platform.startup(() -> {});
+
         InfoProperties ip = new InfoProperties(5, null, null);
         try {
             Thread.sleep(37000);
